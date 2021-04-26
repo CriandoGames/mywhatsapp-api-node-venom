@@ -35,7 +35,7 @@ Este projeto usa como base o [Venom](https://github.com/orkestral/venom "Venom")
 |sendVoiceFileBase64|✔️|getBlockList|✔️|getGroupMembersIds|✔️|
 |sendContactVcard|✔️|getStatus|✔️|getGroupInviteLink|✔️|
 |sendContactVcardList|✔️|getNumberProfile|✔️|createGroup|✔️|
-|sendText|✔️|checkNumberStatus|✔️|createGroupSetAdminMembers|❌|
+|sendText|✔️|checkNumberStatus|✔️|createGroupSetAdminMembers|✔️|
 |sendTextMassa|✔️|checkNumberStatusMassa|✔️|removeParticipant|✔️|
 |sendTextGrupo|✔️|||addParticipant|✔️⚠️|
 |sendLocation|✔️|||promoteParticipant|✔️|
