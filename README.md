@@ -7,7 +7,7 @@
 Este projeto usa como base o [Venom](https://github.com/orkestral/venom "Venom"), um navegador virtual sem interface gráfica que abre o whatsapp web e executa todos os comandos via código possibilitando assim a automação de todas as funções, e um fork do projeto [myzap](https://github.com/billbarsch/myzap "myzap") do [@billbarsch](https://github.com/billbarsch "@billbarsch").
 
 ## Legenda
-|||
+|Status|Descrição|
 | ------------ | ------------ |
 |✔️|Testado, funcionado normalmente|
 |❌|Com erro no código|
