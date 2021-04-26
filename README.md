@@ -9,8 +9,8 @@ Este projeto usa como base o [Venom](https://github.com/orkestral/venom "Venom")
 ## Legenda
 |||||
 | ------------ | ------------ |
-|✔️|Testado, funcionado normamlmente|
-|❌|Com erro no codigo|
+|✔️|Testado, funcionado normalmente|
+|❌|Com erro no código|
 |⚠️|Funcionado de forma anormal|
 |✔️⚠️|Testado, funcionado de forma anormal(TIMEOUT/LOOP)|
 |❌⚠️|Testado, erro desconhecido(lib)|
