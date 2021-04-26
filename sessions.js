@@ -902,43 +902,6 @@ module.exports = class Sessions {
   //
   // ------------------------------------------------------------------------------------------------//
   //
-  //Enviar Texto no stores
-  static async sendTextToStorie(
-    SessionName,
-    text
-  ) {
-    var session = Sessions.getSession(SessionName);
-    var sendResult = await session.client.then(async client => {
-      return await client.sendText(
-        'status@broadcast',
-        text
-      ).then((result) => {
-        //
-        return {
-          "erro": false,
-          "status": 200,
-          "canReceiveMessage": true,
-          "text": "success",
-          "message": "Texto envido com sucesso."
-        };
-        //
-      }).catch((erro) => {
-        //
-        return {
-          "erro": true,
-          "status": 404,
-          "canReceiveMessage": false,
-          "text": erro.text,
-          "message": "Erro ao enviar texto"
-        };
-        //
-      });
-    });
-    return sendResult;
-  } //sendTextToStorie
-  //
-  // ------------------------------------------------------------------------------------------------//
-  //
   //Enviar localização
   static async sendLocation(
     SessionName,
@@ -1087,54 +1050,6 @@ module.exports = class Sessions {
     });
     return resultsendImage;
   } //sendImage
-  //
-  // ------------------------------------------------------------------------------------------------//
-  //
-  //Enviar Imagem no store
-  static async sendImageToStorie(
-    SessionName,
-    filePath,
-    fileName,
-    caption
-  ) {
-    console.log("- Enviando imagem.");
-    var session = Sessions.getSession(SessionName);
-    var sendResult = await session.client.then(async (client) => {
-      return await client.sendFile(
-          'status@broadcast',
-          filePath,
-          fileName,
-          caption
-        )
-        .then((result) => {
-          //console.log('Result: ', result); //return object success
-          //return (result);
-          //
-          return {
-            "erro": false,
-            "status": 200,
-            "canReceiveMessage": true,
-            "text": "success",
-            "message": "Imagem envida com sucesso."
-          };
-          //
-        })
-        .catch((erro) => {
-          //console.error('Error when sending: ', erro); //return object error
-          //return (erro);
-          //
-          return {
-            "erro": true,
-            "status": 404,
-            "canReceiveMessage": false,
-            "text": erro.text,
-            "message": "Erro ao enviar imagem"
-          };
-          //
-        });
-    });
-    return sendResult;
-  } //sendImageToStorie
   //
   // ------------------------------------------------------------------------------------------------//
   //
@@ -1328,262 +1243,12 @@ module.exports = class Sessions {
   //
   // ------------------------------------------------------------------------------------------------//
   //
-  //Enviar opções de mensagem
-  static async sendMessageOptions(
-    SessionName,
-    number,
-    quotedMessage,
-    msg
-  ) {
-    console.log("- Enviando responder.");
-    var session = Sessions.getSession(SessionName);
-    var resultsendImage = await session.client.then(async (client) => {
-      return await client.sendImageAsSticker(
-        number,
-        msg, {
-          quotedMessageId: quotedMessage,
-        }
-      ).then((result) => {
-        //console.log('Result: ', result); //return object success
-        //return (result);
-        //
-        return {
-          "erro": false,
-          "status": 200,
-          "canReceiveMessage": true,
-          "text": "success",
-          "message": "Responder envida com sucesso."
-        };
-        //
-      }).catch((erro) => {
-        //console.error('Error when sending: ', erro); //return object error
-        //return (erro);
-        //
-        return {
-          "erro": true,
-          "status": 404,
-          "canReceiveMessage": false,
-          "text": erro.text,
-          "message": "Erro ao enviar responder"
-        };
-        //
-      });
-    });
-    return resultsendImage;
-  } //sendImageAsSticker
-  //
-  // ------------------------------------------------------------------------------------------------//
-  //
-  // Verifica e retorna se uma mensagem ou uma resposta
-  static async returnReply(
-    SessionName,
-    message
-  ) {
-    console.log("- Enviando mensagem replicada");
-    var session = Sessions.getSession(SessionName);
-    var resultreturnReply = await session.client.then(async (client) => {
-      //
-      // Exemple: 
-      // await client.onMessage(async (message) => {
-      //     console.log(await client.returnReply(message)); // replicated message
-      //     console.log(message.body ); //customer message
-      //   });
-      //
-      try {
-        await client.returnReply(message);
-        //console.log('Result: ', result); //return object success
-        //return (result);
-        //
-        return {
-          "erro": false,
-          "status": 200,
-          "canReceiveMessage": true,
-          "text": "success",
-          "message": "Mensagem replicada com sucesso."
-        };
-        //
-      } catch (erro) {
-        //console.error('Error when sending: ', erro); //return object error
-        //return (erro);
-        //
-        return {
-          "erro": true,
-          "status": 404,
-          "canReceiveMessage": false,
-          "text": erro.text,
-          "message": "Erro ao replicada mensagem"
-        };
-        //
-      }
-    });
-    return resultreturnReply;
-  } //returnReply
-  //
-  // ------------------------------------------------------------------------------------------------//
-  //
-  // Enviar visto ✔️✔️
-  static async sendSeen(
-    SessionName,
-    number
-  ) {
-    console.log("- Enviando ✔️✔️.");
-    var session = Sessions.getSession(SessionName);
-    var resultsendSeen = await session.client.then(async (client) => {
-      try {
-        await client.sendSeen(number + chatIdorgroupId);
-        //
-        return {
-          "erro": false,
-          "status": 200,
-          "number": number,
-          "canReceiveMessage": true,
-          "text": "success",
-          "message": "✔️✔️ envida com sucesso."
-        };
-        //
-      } catch (error) {
-        //
-        return {
-          "erro": true,
-          "status": 404,
-          "number": number,
-          "canReceiveMessage": false,
-          "text": erro.text,
-          "message": "Erro ao enviar ✔️✔️"
-        };
-        //
-      }
-    });
-    return resultsendSeen;
-  } //sendSeen
-  //
-  // ------------------------------------------------------------------------------------------------//
-  //
-  // Enviar digitando
-  static async startTyping(
-    SessionName,
-    number,
-    chatIdorgroupId
-  ) {
-    console.log("- Enviando digitando");
-    var session = Sessions.getSession(SessionName);
-    var resultsendImage = await session.client.then(async (client) => {
-      try {
-        await client.startTyping(number + chatIdorgroupId);
-        //
-        return {
-          "erro": false,
-          "status": 200,
-          "number": number,
-          "canReceiveMessage": true,
-          "text": "success",
-          "message": "Digitando envida com sucesso."
-        };
-        //
-      } catch (error) {
-        //
-        return {
-          "erro": true,
-          "status": 404,
-          "number": number,
-          "canReceiveMessage": false,
-          "text": erro.text,
-          "message": "Erro ao enviar digitando"
-        };
-        //
-      }
-    });
-    return resultsendImage;
-  } //startTyping
-  //
-  // ------------------------------------------------------------------------------------------------//
-  //
-  // Enviar parar digitando
-  static async stopTyping(
-    SessionName,
-    number,
-    chatIdorgroupId
-  ) {
-    console.log("- Enviando stop digitando");
-    var session = Sessions.getSession(SessionName);
-    var resultsendImage = await session.client.then(async (client) => {
-      try {
-        await client.stopTyping(number + chatIdorgroupId);
-        //
-        return {
-          "erro": false,
-          "status": 200,
-          "number": number,
-          "canReceiveMessage": true,
-          "text": "success",
-          "message": "Stop digitando envida com sucesso."
-        };
-        //
-      } catch (error) {
-        //
-        return {
-          "erro": true,
-          "status": 404,
-          "number": number,
-          "canReceiveMessage": false,
-          "text": erro.text,
-          "message": "Erro ao enviar stop digitando"
-        };
-        //
-      }
-    });
-    return resultsendImage;
-  } //stopTyping
-  //
-  // ------------------------------------------------------------------------------------------------//
-  //
-  // Enviar status do chat (0: Typing, 1: Recording, 2: Paused)
-  static async setChatState(
-    SessionName,
-    number,
-    chatIdorgroupId,
-    state
-  ) {
-    console.log("- Enviando stop digitando");
-    var session = Sessions.getSession(SessionName);
-    var resultsetChatState = await session.client.then(async (client) => {
-      try {
-        await client.setChatState(number + chatIdorgroupId, state);
-        //
-        return {
-          "erro": false,
-          "status": 200,
-          "number": number,
-          "canReceiveMessage": true,
-          "text": "success",
-          "message": "Status envido com sucesso."
-        };
-        //
-      } catch (error) {
-        //
-        return {
-          "erro": true,
-          "status": 404,
-          "number": number,
-          "canReceiveMessage": false,
-          "text": erro.text,
-          "message": "Erro ao enviar status"
-        };
-        //
-      }
-    });
-    return resultsetChatState;
-  } //stopTyping
-  //
-  // ------------------------------------------------------------------------------------------------//
-  //
   /*
   ╦═╗┌─┐┌┬┐┬─┐┬┌─┐┬  ┬┬┌┐┌┌─┐  ╔╦╗┌─┐┌┬┐┌─┐                
   ╠╦╝├┤  │ ├┬┘│├┤ └┐┌┘│││││ ┬   ║║├─┤ │ ├─┤                
   ╩╚═└─┘ ┴ ┴└─┴└─┘ └┘ ┴┘└┘└─┘  ═╩╝┴ ┴ ┴ ┴ ┴                
   */
   //
-
   // Recuperar contatos
   static async getAllContacts(
     SessionName
@@ -1939,8 +1604,7 @@ module.exports = class Sessions {
   // Gerar link de url de convite de grupo
   static async getGroupInviteLink(
     SessionName,
-    groupId,
-    chatIdorgroupId
+    groupId
   ) {
     console.log("- getGroupInviteLink");
     var session = Sessions.getSession(SessionName);
@@ -2127,6 +1791,7 @@ module.exports = class Sessions {
     console.log("- promoteParticipant");
     //
     console.log(group);
+    console.log(number);
     //
     var session = Sessions.getSession(SessionName);
     var resultpromoteParticipant = await session.client.then(async client => {
@@ -2154,7 +1819,7 @@ module.exports = class Sessions {
         }
         //
       } catch (erro) {
-        console.error('Error when sending: ', erro); //return object error
+        //console.error('Error when sending: ', erro); //return object error
         //
         return {
           "erro": true,
@@ -2215,38 +1880,6 @@ module.exports = class Sessions {
     });
     return resultdemoteParticipant;
   } //demoteParticipant
-  //
-  // ------------------------------------------------------------------------------------------------//
-  //
-  // Retorna os adm do grupo
-  static async getGroupAdmins(
-    SessionName,
-    number,
-    chatIdorgroupId
-  ) {
-    console.log("- getGroupAdmins");
-    var session = Sessions.getSession(SessionName);
-    var resultgetGroupAdmins = await session.client.then(async client => {
-      try {
-        var getGroupAdmins = await client.getGroupAdmins(number + chatIdorgroupId);
-        //console.log('Result: ', result); //return object success
-        return getGroupAdmins;
-      } catch (erro) {
-        //console.error('Error when sending: ', erro); //return object error
-        //
-        return {
-          "erro": true,
-          "status": 404,
-          "number": phonefull,
-          "message": "Erro ao obter administradores"
-        };
-        //
-      };
-    });
-    return {
-      "GroupAdmins": resultgetGroupAdmins
-    };
-  } //getGroupAdmins
   //
   // ------------------------------------------------------------------------------------------------//
   //
