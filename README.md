@@ -7,11 +7,13 @@
 Este projeto usa como base o [Venom](https://github.com/orkestral/venom "Venom"), um navegador virtual sem interface gráfica que abre o whatsapp web e executa todos os comandos via código possibilitando assim a automação de todas as funções, e um fork do projeto [myzap](https://github.com/billbarsch/myzap "myzap") do [@billbarsch](https://github.com/billbarsch "@billbarsch").
 
 ## Legenda
-
-✔️-----> Testado, funcionado normamlmente
-❌-----> Com erro no codigo
-⚠️-----> Funcionado de forma anormal
-✔️⚠️-->  Testado, funcionado de forma anormal(TIMEOUT)
+|||||
+| ------------ | ------------ |
+|✔️|Testado, funcionado normamlmente|
+|❌|Com erro no codigo|
+|⚠️|Funcionado de forma anormal|
+|✔️⚠️|Testado, funcionado de forma anormal(TIMEOUT/LOOP)|
+|❌⚠️|Testado, erro desconhecido(lib)|
 
 ## Rotas
 |Router Started |   |Router Profile|   |Router Device|   |
