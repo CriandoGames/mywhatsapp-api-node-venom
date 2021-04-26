@@ -2023,11 +2023,13 @@ router.post("/createGroupSetAdminMembers", upload.single('participants'), async 
         contactlistInvalid
       );
       //
+      await sleep(5000);
+      //
       createGroupAdminMembers.push(createGroup);
       //
       if (createGroup.erro !== true && createGroup.status !== 404) {
         //
-        await forEach(createGroup.contactlistValid, async (resultfile) => {
+        await forEach(contactlistValid, async (resultfile) => {
           //
           var promoteParticipant = await Sessions.promoteParticipant(
             req.body.SessionName,

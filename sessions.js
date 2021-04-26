@@ -1819,7 +1819,7 @@ module.exports = class Sessions {
         }
         //
       } catch (erro) {
-        //console.error('Error when sending: ', erro); //return object error
+        console.error('Error when sending: ', erro); //return object error
         //
         return {
           "erro": true,
