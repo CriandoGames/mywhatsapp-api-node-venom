@@ -1868,8 +1868,6 @@ router.post("/getGroupMembersIds", upload.none(''), async (req, res, next) => {
 //
 // ------------------------------------------------------------------------------------------------//
 //
-// -> Continua aqui ->
-//
 // Gerar link de url de convite de grupo
 router.post("/getGroupInviteLink", upload.none(''), async (req, res, next) => {
   //
@@ -1976,7 +1974,7 @@ router.post("/createGroupSetAdminMembers", upload.single('participants'), async 
     case 'isLogged':
     case 'chatsAvailable':
       //
-      var createGroupAdminMembers = [];
+      var createGroupSetAdminMembers = [];
       //
       var folderName = fs.mkdtempSync(path.join(os.tmpdir(), req.body.SessionName + '-'));
       var filePath = path.join(folderName, req.file.originalname);
@@ -2025,7 +2023,7 @@ router.post("/createGroupSetAdminMembers", upload.single('participants'), async 
       //
       await sleep(5000);
       //
-      createGroupAdminMembers.push(createGroup);
+      createGroupSetAdminMembers.push(createGroup);
       //
       if (createGroup.erro !== true && createGroup.status !== 404) {
         //
@@ -2037,24 +2035,117 @@ router.post("/createGroupSetAdminMembers", upload.single('participants'), async 
             resultfile
           );
           //
-          createGroupAdminMembers.push(promoteParticipant);
+          createGroupSetAdminMembers.push(promoteParticipant);
           //
           await sleep(1000);
         });
         //
       } else {
-        var createGroupAdminMembers = createGroup;
+        var createGroupSetAdminMembers = createGroup;
       }
       res.status(200).json({
-        createGroupAdminMembers
+        createGroupSetAdminMembers
       });
       break;
     default:
       res.status(400).json({
-        "createGroupAdminMembers": sessionStatus
+        "createGroupSetAdminMembers": sessionStatus
       });
   }
-}); //createGroupAdminMenbers
+}); //createGroupSetAdminMembers
+//
+// ------------------------------------------------------------------------------------------------//
+//
+// Criar grupo (título, participantes a adicionar)
+router.post("/createCountGroupSetAdminMembers", upload.single('participants'), async (req, res, next) => {
+  var sessionStatus = await Sessions.ApiStatus(req.body.SessionName);
+  switch (sessionStatus.status) {
+    case 'inChat':
+    case 'qrReadSuccess':
+    case 'isLogged':
+    case 'chatsAvailable':
+      //
+      var createCountGroupSetAdminMembers = [];
+      //
+      var folderName = fs.mkdtempSync(path.join(os.tmpdir(), req.body.SessionName + '-'));
+      var filePath = path.join(folderName, req.file.originalname);
+      fs.writeFileSync(filePath, req.file.buffer.toString('base64'), 'base64');
+      console.log("- File:", filePath);
+      //
+      var arrayNumbers = fs.readFileSync(filePath, 'utf-8').toString().split(/\r?\n/);
+      //
+      var contactlistValid = [];
+      var contactlistInvalid = [];
+      //
+      for (var i in arrayNumbers) {
+        //console.log(arrayNumbers[i]);
+        var numero = soNumeros(arrayNumbers[i]);
+        //
+        if (numero.length !== 0) {
+          //
+          if (validPhone(numero) === true) {
+            //
+            var checkNumberStatus = await Sessions.checkNumberStatus(
+              req.body.SessionName,
+              soNumeros(numero) + '@c.us'
+            );
+            //
+            if (checkNumberStatus.status === 200 && checkNumberStatus.canReceiveMessage === true) {
+              //
+              contactlistValid.push(soNumeros(checkNumberStatus.number) + "@c.us");
+            } else {
+              contactlistInvalid.push(numero + "@c.us");
+            }
+          } else {
+            contactlistInvalid.push(numero + "@c.us");
+          }
+          //
+        }
+        //
+        await sleep(1000);
+      }
+      //
+      for (i = 1; i <= 5; i++) {
+        var createGroup = await Sessions.createGroup(
+          req.body.SessionName,
+          req.body.title + "-" + req.body.count,
+          contactlistValid,
+          contactlistInvalid
+        );
+        //
+        await sleep(5000);
+        //
+        createCountGroupSetAdminMembers.push(createGroup);
+        //
+        if (createGroup.erro !== true && createGroup.status !== 404) {
+          //
+          await forEach(contactlistValid, async (resultfile) => {
+            //
+            var promoteParticipant = await Sessions.promoteParticipant(
+              req.body.SessionName,
+              createGroup.gid + '@g.us',
+              resultfile
+            );
+            //
+            createCountGroupSetAdminMembers.push(promoteParticipant);
+            //
+            await sleep(1000);
+          });
+          //
+        } else {
+          var createCountGroupSetAdminMembers = createGroup;
+        }
+      }
+      res.status(200).json({
+        createCountGroupSetAdminMembers
+      });
+      break;
+    default:
+      res.status(400).json({
+        "createCountGroupSetAdminMembers": sessionStatus
+      });
+  }
+}); //createCountGroupSetAdminMembers
 //
 // ------------------------------------------------------------------------------------------------//
 //
