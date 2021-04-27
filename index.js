@@ -60,7 +60,7 @@ const painel = require("./routes/painel.routes");
 const sistem = require("./controllers/sistem.controller");
 const auth = require("./controllers/auth.controller");
 const projects = require("./controllers/projects.controller");
-//const Sessions = require("./sessions.js");
+const Sessions = require("./sessions.js");
 const serverConfig = require("./config/server.config.json");
 //
 const io = require('socket.io')(server, {
