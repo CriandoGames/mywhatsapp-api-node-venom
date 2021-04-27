@@ -1257,14 +1257,12 @@ module.exports = class Sessions {
     //
     var session = Sessions.getSession(SessionName);
     var resultgetAllContacts = await session.client.then(async client => {
-      //
-      try {
-        const AllContacts = await client.getAllContacts();
+      return await client.getAllContacts().then((result) => {
         //console.log('Result: ', result); //return object success
         //
         var getChatGroupNewMsg = [];
         //
-        await forEach(AllContacts, async (resultAllContacts) => {
+        await forEach(result, async (resultAllContacts) => {
           //
           if (resultAllContacts.isMyContact === true || resultAllContacts.isMyContact === false) {
             //
@@ -1283,8 +1281,8 @@ module.exports = class Sessions {
         //
         return getChatGroupNewMsg;
         //
-      } catch (erro) {
-        console.error('Error when sending: ', erro); //return object error
+      }).catch((erro) => {
+        //console.error('Error when sending: ', erro); //return object error
         //
         return {
           "erro": true,
@@ -1294,7 +1292,7 @@ module.exports = class Sessions {
           "message": "Erro ao recuperar contatos"
         };
         //
-      }
+      });
       //
     });
     //
@@ -1308,11 +1306,10 @@ module.exports = class Sessions {
     console.log("- Obtendo  Session Token Browser.");
     var session = Sessions.getSession(SessionName);
     var resultgetSessionTokenBrowser = await session.client.then(async client => {
-      try {
-        const browserSessionToken = await client.getSessionTokenBrowser();
+      return await client.getSessionTokenBrowser().then((result) => {
         //console.log('Result: ', result); //return object success
-        return browserSessionToken;
-      } catch (erro) {
+        return result;
+      }).catch((erro) => {
         console.error('Error when sending: ', erro); //return object error
         //
         return {
@@ -1323,7 +1320,7 @@ module.exports = class Sessions {
           "message": "Erro ao recuperar token browser"
         };
         //
-      };
+      });
     });
     return resultgetSessionTokenBrowser;
   } //getSessionTokenBrowser
