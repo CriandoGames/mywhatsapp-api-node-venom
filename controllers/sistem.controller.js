@@ -2117,7 +2117,7 @@ router.post("/addParticipant", upload.none(''), async (req, res, next) => {
         //
         var addParticipant = await Sessions.addParticipant(
           req.body.SessionName,
-          req.body.group + '@g.us',
+          req.body.groupId + '@g.us',
           soNumeros(checkNumberStatus.number) + '@c.us'
         );
         //
@@ -2157,7 +2157,7 @@ router.post("/promoteParticipant", upload.none(''), async (req, res, next) => {
         //
         var promoteParticipant = await Sessions.promoteParticipant(
           req.body.SessionName,
-          req.body.group + '@g.us',
+          req.body.groupId + '@g.us',
           soNumeros(checkNumberStatus.number) + '@c.us'
         );
         //
@@ -2196,7 +2196,7 @@ router.post("/demoteParticipant", upload.none(''), async (req, res, next) => {
         //
         var demoteParticipant = await Sessions.demoteParticipant(
           req.body.SessionName,
-          req.body.group + '@g.us',
+          req.body.groupId + '@g.us',
           soNumeros(req.body.phonefull) + '@c.us'
         );
         //

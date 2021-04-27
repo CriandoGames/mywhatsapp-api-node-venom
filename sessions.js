@@ -1677,13 +1677,13 @@ module.exports = class Sessions {
   // Remove participante
   static async removeParticipant(
     SessionName,
-    group,
+    groupId,
     phonefull
   ) {
     console.log("- removeParticipant");
     var session = Sessions.getSession(SessionName);
     var resultremoveParticipant = await session.client.then(async client => {
-      return await await client.removeParticipant(group, phonefull).then((result) => {
+      return await await client.removeParticipant(groupId, phonefull).then((result) => {
         //console.log('Result: ', result); //return object success
         //
         if (result === true) {
@@ -1724,13 +1724,13 @@ module.exports = class Sessions {
   // Adicionar participante
   static async addParticipant(
     SessionName,
-    group,
+    groupId,
     phonefull
   ) {
     console.log("- addParticipant");
     var session = Sessions.getSession(SessionName);
     var resultaddParticipant = await session.client.then(async client => {
-      return await client.addParticipant(group, phonefull).then((result) => {
+      return await client.addParticipant(groupId, phonefull).then((result) => {
         //console.log('Result: ', addParticipant); //return object success
         //
         if (result === true) {
@@ -1771,13 +1771,13 @@ module.exports = class Sessions {
   // Promote participant (Give admin privileges)
   static async promoteParticipant(
     SessionName,
-    group,
+    groupId,
     number
   ) {
     console.log("- promoteParticipant");
     var session = Sessions.getSession(SessionName);
     var resultpromoteParticipant = await session.client.then(async client => {
-      return await client.promoteParticipant(group, number).then((result) => {
+      return await client.promoteParticipant(groupId, number).then((result) => {
         //console.log('Result: ', promoteParticipant); //return object success
         //
         if (result === true) {
@@ -1818,13 +1818,13 @@ module.exports = class Sessions {
   // Depromote participant (Give admin privileges)
   static async demoteParticipant(
     SessionName,
-    group,
+    groupId,
     phonefull
   ) {
     console.log("- demoteParticipant");
     var session = Sessions.getSession(SessionName);
     var resultdemoteParticipant = await session.client.then(async client => {
-      return await client.demoteParticipant(group, phonefull).then((result) => {
+      return await client.demoteParticipant(groupId, phonefull).then((result) => {
         //console.log('Result: ', demoteParticipant); //return object success
         //
         if (demoteParticipant === true) {
