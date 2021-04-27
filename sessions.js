@@ -1788,10 +1788,6 @@ module.exports = class Sessions {
     number
   ) {
     console.log("- promoteParticipant");
-    //
-    console.log(group);
-    console.log(number);
-    //
     var session = Sessions.getSession(SessionName);
     var resultpromoteParticipant = await session.client.then(async client => {
       //await client.promoteParticipant('00000000-000000@g.us', '111111111111@c.us');
