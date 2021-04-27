@@ -1310,7 +1310,7 @@ module.exports = class Sessions {
         //console.log('Result: ', result); //return object success
         return result;
       }).catch((erro) => {
-        console.error('Error when sending: ', erro); //return object error
+        //console.error('Error when sending: ', erro); //return object error
         //
         return {
           "erro": true,
@@ -1332,12 +1332,11 @@ module.exports = class Sessions {
     console.log("- getBlockList");
     var session = Sessions.getSession(SessionName);
     var resultgetBlockList = await session.client.then(async client => {
-      try {
-        const getBlockList = await client.getBlockList();
+      return await client.getBlockList().then((result) => {
         //console.log('Result: ', result); //return object success
-        return getBlockList;
-      } catch (erro) {
-        console.error('Error when sending: ', erro); //return object error
+        return result;
+      }).catch((erro) => {
+        //console.error('Error when sending: ', erro); //return object error
         //
         return {
           "erro": true,
@@ -1347,7 +1346,7 @@ module.exports = class Sessions {
           "message": "Erro ao recuperar lista de contatos bloqueados"
         };
         //
-      };
+      });
     });
     return resultgetBlockList;
   } //getBlockList
@@ -1362,12 +1361,11 @@ module.exports = class Sessions {
     console.log("- Obtendo status!");
     var session = Sessions.getSession(SessionName);
     var resultgetStatus = await session.client.then(async client => {
-      try {
-        const status = await client.getStatus(number);
+      return await client.getStatus(number).then((result) => {
         //console.log('Result: ', result); //return object success
-        return status;
-      } catch (erro) {
-        console.error('Error when sending:\n', erro); //return object error
+        return result;
+      }).catch((erro) => {
+        //console.error('Error when sending:\n', erro); //return object error
         //
         return {
           "erro": true,
@@ -1377,7 +1375,7 @@ module.exports = class Sessions {
           "message": "Erro ao recuperar status de contato"
         };
         //
-      };
+      });
     });
     return resultgetStatus;
   } //getStatus
@@ -1392,12 +1390,11 @@ module.exports = class Sessions {
     console.log("- Obtendo status!");
     var session = Sessions.getSession(SessionName);
     var resultgetNumberProfile = await session.client.then(async client => {
-      try {
-        const status = await client.getNumberProfile(number);
+      return await client.getNumberProfile(number).then((result) => {
         //console.log('Result: ', result); //return object success
-        return status;
-      } catch (erro) {
-        console.error('Error when sending:\n', erro); //return object error
+        return result;
+      }).catch((erro) => {
+        //console.error('Error when sending:\n', erro); //return object error
         //
         return {
           "erro": true,
@@ -1407,7 +1404,7 @@ module.exports = class Sessions {
           "message": "Erro ao recuperar profile"
         };
         //
-      };
+      });
     });
     return resultgetNumberProfile;
   } //getStatus
@@ -1422,27 +1419,26 @@ module.exports = class Sessions {
     console.log("- canReceiveMessage");
     var session = Sessions.getSession(SessionName);
     var resultcheckNumberStatus = await session.client.then(async client => {
-      try {
-        const chat = await client.checkNumberStatus(number);
+      return await client.checkNumberStatus(number).then((result) => {
         //console.log('Result: ', chat); //return object success
         //
-        if (chat.status === 200 && chat.canReceiveMessage === true) {
+        if (result.status === 200 && result.canReceiveMessage === true) {
           //
           return {
             "erro": false,
-            "status": chat.status,
-            "canReceiveMessage": chat.canReceiveMessage,
-            "number": chat.id.user,
+            "status": result.status,
+            "canReceiveMessage": result.canReceiveMessage,
+            "number": result.id.user,
             "message": "O número informado pode receber mensagens via whatsapp"
           };
           //
-        } else if (chat.status === 404 && chat.canReceiveMessage === false) {
+        } else if (result.status === 404 && result.canReceiveMessage === false) {
           //
           return {
             "erro": true,
-            "status": chat.status,
-            "canReceiveMessage": chat.canReceiveMessage,
-            "number": chat.id.user,
+            "status": result.status,
+            "canReceiveMessage": result.canReceiveMessage,
+            "number": result.id.user,
             "message": "O número informado não pode receber mensagens via whatsapp"
           };
           //
@@ -1457,8 +1453,8 @@ module.exports = class Sessions {
           };
           //
         }
-      } catch (erro) {
-        console.error('Error when sending:\n', erro); //return object error
+      }).catch((erro) => {
+        //console.error('Error when sending:\n', erro); //return object error
         //
         return {
           "erro": true,
@@ -1468,7 +1464,7 @@ module.exports = class Sessions {
           "message": "Erro ao verificar número informado"
         };
         //
-      };
+      });
     });
     return resultcheckNumberStatus;
   } //checkNumberStatus
@@ -1489,8 +1485,7 @@ module.exports = class Sessions {
     console.log("- leaveGroup");
     var session = Sessions.getSession(SessionName);
     var resultleaveGroup = await session.client.then(async client => {
-      try {
-        await client.leaveGroup(groupId);
+      return await client.leaveGroup(groupId).then((result) => {
         //console.log('Result: ', result); //return object success
         //
         return {
@@ -1501,8 +1496,8 @@ module.exports = class Sessions {
           "message": "Grupo deixado com sucesso"
         };
         //
-      } catch (erro) {
-        console.error('Error when sending: ', erro); //return object error
+      }).catch((erro) => {
+        // console.error('Error when sending: ', erro); //return object error
         //
         return {
           "erro": true,
@@ -1512,7 +1507,7 @@ module.exports = class Sessions {
           "message": "Erro ao deixar o grupo"
         };
         //
-      };
+      });
     });
     return resultleaveGroup;
   } //leaveGroup
@@ -1527,22 +1522,21 @@ module.exports = class Sessions {
     console.log("- getGroupMembers");
     var session = Sessions.getSession(SessionName);
     var resultgetGroupMembers = await session.client.then(async client => {
-      try {
-        const GroupMembers = await client.getGroupMembers(groupId);
+      return await client.getGroupMembers(groupId).then((result) => {
         //console.log('Result: ', result); //return object success
         //
         var getGroupMembers = [];
         //
-        await forEach(GroupMembers, async (resultAllContacts) => {
+        await forEach(result, async (resultGroupMembers) => {
           //
-          if (resultAllContacts.isMyContact === true || resultAllContacts.isMyContact === false) {
+          if (resultGroupMembers.isMyContact === true || resultGroupMembers.isMyContact === false) {
             //
             getGroupMembers.push({
-              "user": resultAllContacts.id.user,
-              "name": resultAllContacts.name,
-              "shortName": resultAllContacts.shortName,
-              "pushname": resultAllContacts.pushname,
-              "formattedName": resultAllContacts.formattedName
+              "user": resultGroupMembers.id.user,
+              "name": resultGroupMembers.name,
+              "shortName": resultGroupMembers.shortName,
+              "pushname": resultGroupMembers.pushname,
+              "formattedName": resultGroupMembers.formattedName
             });
           }
           //
@@ -1550,8 +1544,8 @@ module.exports = class Sessions {
         //
         return getGroupMembers;
         //
-      } catch (erro) {
-        console.error('Error when sending:\n', erro); //return object error
+      }).catch((erro) => {
+        //console.error('Error when sending:\n', erro); //return object error
         //
         return {
           "erro": true,
@@ -1561,7 +1555,7 @@ module.exports = class Sessions {
           "message": "Erro ao obter membros do grupo"
         };
         //
-      };
+      });
     });
     return resultgetGroupMembers;
   } //getGroupMembers
@@ -1576,11 +1570,10 @@ module.exports = class Sessions {
     console.log("- getGroupMembersIds");
     var session = Sessions.getSession(SessionName);
     var resultgetGroupMembersIds = await session.client.then(async client => {
-      try {
-        const GroupMembersIds = await client.getGroupMembersIds(groupId);
+      return await client.getGroupMembersIds(groupId).then((result) => {
         //console.log('Result: ', result); //return object success
-        return GroupMembersIds;
-      } catch (erro) {
+        return result;
+      }).catch((erro) => {
         console.error('Error when sending:\n', erro); //return object error
         //
         return {
@@ -1591,7 +1584,7 @@ module.exports = class Sessions {
           "message": "Erro ao obter membros do grupo"
         };
         //
-      };
+      });
     });
     return resultgetGroupMembersIds;
   } //getGroupMembersIds
@@ -1606,11 +1599,10 @@ module.exports = class Sessions {
     console.log("- getGroupInviteLink");
     var session = Sessions.getSession(SessionName);
     var resultgetGroupInviteLink = await session.client.then(async client => {
-      try {
-        var result = await client.getGroupInviteLink(groupId);
+      return await client.getGroupInviteLink(groupId).then((result) => {
         //console.log('Result: ', result); //return object success
         return result;
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
         //
         return {
@@ -1621,7 +1613,7 @@ module.exports = class Sessions {
           "message": "Erro ao obter link de convite de grupo"
         };
         //
-      };
+      });
     });
     return resultgetGroupInviteLink;
   } //getGroupInviteLink
@@ -1691,11 +1683,10 @@ module.exports = class Sessions {
     console.log("- removeParticipant");
     var session = Sessions.getSession(SessionName);
     var resultremoveParticipant = await session.client.then(async client => {
-      try {
-        const removeParticipant = await client.removeParticipant(group, phonefull);
+      return await await client.removeParticipant(group, phonefull).then((result) => {
         //console.log('Result: ', result); //return object success
         //
-        if (removeParticipant === true) {
+        if (result === true) {
           return {
             "erro": false,
             "status": 200,
@@ -1713,7 +1704,7 @@ module.exports = class Sessions {
           //
         }
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
         //
         return {
@@ -1723,7 +1714,7 @@ module.exports = class Sessions {
           "message": "Erro ao remover participante"
         };
         //
-      };
+      });
     });
     return resultremoveParticipant;
   } //removeParticipant
@@ -1739,11 +1730,10 @@ module.exports = class Sessions {
     console.log("- addParticipant");
     var session = Sessions.getSession(SessionName);
     var resultaddParticipant = await session.client.then(async client => {
-      try {
-        var addParticipant = await client.addParticipant(group, phonefull);
+      return await client.addParticipant(group, phonefull).then((result) => {
         //console.log('Result: ', addParticipant); //return object success
         //
-        if (addParticipant === true) {
+        if (result === true) {
           return {
             "erro": false,
             "status": 200,
@@ -1761,7 +1751,7 @@ module.exports = class Sessions {
           //
         }
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
         //
         return {
@@ -1771,7 +1761,7 @@ module.exports = class Sessions {
           "message": "Erro ao adicionar participante"
         };
         //
-      };
+      });
     });
     return resultaddParticipant;
   } //addParticipant
@@ -1787,7 +1777,6 @@ module.exports = class Sessions {
     console.log("- promoteParticipant");
     var session = Sessions.getSession(SessionName);
     var resultpromoteParticipant = await session.client.then(async client => {
-      //await client.promoteParticipant('00000000-000000@g.us', '111111111111@c.us');
       return await client.promoteParticipant(group, number).then((result) => {
         //console.log('Result: ', promoteParticipant); //return object success
         //
@@ -1835,8 +1824,7 @@ module.exports = class Sessions {
     console.log("- demoteParticipant");
     var session = Sessions.getSession(SessionName);
     var resultdemoteParticipant = await session.client.then(async client => {
-      try {
-        var demoteParticipant = await client.demoteParticipant(group, phonefull);
+      return await client.demoteParticipant(group, phonefull).then((result) => {
         //console.log('Result: ', demoteParticipant); //return object success
         //
         if (demoteParticipant === true) {
@@ -1857,7 +1845,7 @@ module.exports = class Sessions {
           //
         }
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
         //
         return {
@@ -1867,7 +1855,7 @@ module.exports = class Sessions {
           "message": "Erro ao remover participante de administrador"
         };
         //
-      };
+      });
     });
     return resultdemoteParticipant;
   } //demoteParticipant
@@ -1882,20 +1870,18 @@ module.exports = class Sessions {
     console.log("- Obtendo chats!");
     var session = Sessions.getSession(SessionName);
     var resultgetGroupInfoFromInviteLink = await session.client.then(async client => {
-      try {
-        var grtInviteCode = await client.getGroupInfoFromInviteLink(InviteCode);
+      return await client.getGroupInfoFromInviteLink(InviteCode).then((result) => {
         //console.log('Result: ', result); //return object success
-        return grtInviteCode;
-      } catch (erro) {
+        return result;
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
-        //
         return {
           "erro": true,
           "status": 404,
           "message": "Erro ao obter link de convite"
         };
         //
-      };
+      });
     });
     return resultgetGroupInfoFromInviteLink;
   } //getGroupInfoFromInviteLink
@@ -1910,11 +1896,10 @@ module.exports = class Sessions {
     console.log("- joinGroup");
     var session = Sessions.getSession(SessionName);
     var resultjoinGroup = await session.client.then(async client => {
-      try {
-        var joinGroup = await client.joinGroup(InviteCode);
+      return await await client.joinGroup(InviteCode).then((result) => {
         //console.log('Result: ', result); //return object success
         //
-        if (joinGroup.status === 200) {
+        if (result.status === 200) {
           return {
             "erro": false,
             "status": 200,
@@ -1930,7 +1915,7 @@ module.exports = class Sessions {
           //
         }
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
         //
         return {
@@ -1939,7 +1924,7 @@ module.exports = class Sessions {
           "message": "Erro ao entra no grupo via convite"
         };
         //
-      };
+      });
     });
     return resultjoinGroup;
   } //joinGroup
@@ -1960,15 +1945,16 @@ module.exports = class Sessions {
     console.log("- setProfileStatus");
     var session = Sessions.getSession(SessionName);
     var resultsetProfileStatus = await session.client.then(async client => {
-      try {
-        await client.setProfileStatus(ProfileStatus);
+      return await client.setProfileStatus(ProfileStatus).then((result) => {
+        //console.log('Result: ', result); //return object success
+        //
         return {
           "erro": false,
           "status": 200,
           "message": "Profile status alterado com sucesso."
         };
         //
-      } catch (error) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
         //return erro;
         return {
@@ -1977,7 +1963,7 @@ module.exports = class Sessions {
           "message": "Erro ao alterar profile status."
         };
         //
-      }
+      });
     });
     return resultsetProfileStatus;
   } //setProfileStatus
@@ -1992,15 +1978,16 @@ module.exports = class Sessions {
     console.log("- setProfileName");
     var session = Sessions.getSession(SessionName);
     var resultsetProfileName = await session.client.then(async client => {
-      try {
-        await client.setProfileName(ProfileName);
+      return await client.setProfileName(ProfileName).then((result) => {
+        //console.log('Result: ', result); //return object success
+        //
         return {
           "erro": false,
           "status": 200,
           "message": "Profile name alterado com sucesso."
         };
         //
-      } catch (error) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
         //return erro;
         return {
@@ -2009,7 +1996,7 @@ module.exports = class Sessions {
           "message": "Erro ao alterar profile name."
         };
         //
-      }
+      });
     });
     return resultsetProfileName;
   } //setProfileName
@@ -2024,8 +2011,8 @@ module.exports = class Sessions {
     console.log("- setProfilePic");
     var session = Sessions.getSession(SessionName);
     var resultsetProfilePic = await session.client.then(async client => {
-      try {
-        await client.setProfilePic(path);
+      return await client.setProfilePic(path).then((result) => {
+        //console.log('Result: ', result); //return object success
         //
         return {
           "erro": false,
@@ -2033,16 +2020,16 @@ module.exports = class Sessions {
           "message": "Profile pic alterado com sucesso."
         };
         //
-      } catch (error) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
-        //return erro;
+        //
         return {
           "erro": true,
           "status": 404,
           "message": "Erro ao alterar profile pic."
         };
         //
-      }
+      });
     });
     return resultsetProfilePic;
   } //setProfilePic
@@ -2060,25 +2047,26 @@ module.exports = class Sessions {
     console.log("- killServiceWorker");
     var session = Sessions.getSession(SessionName);
     var resultkillServiceWorker = await session.client.then(async client => {
-      try {
-        const killServiceWorker = await client.killServiceWorker();
+      return await client.killServiceWorker().then((result) => {
+        //console.log('Result: ', result); //return object success
         //
         return {
           "erro": false,
           "status": 200,
           "message": "Serviço parado com sucesso.",
-          killServiceWorker
+          "killService": result
         };
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
+        //
         return {
           "erro": true,
           "status": 404,
           "message": "Erro ao parar serviço."
         };
         //
-      }
+      });
     });
     return resultkillServiceWorker;
   } //killServiceWorker
@@ -2090,25 +2078,26 @@ module.exports = class Sessions {
     console.log("- restartService");
     var session = Sessions.getSession(SessionName);
     var resultrestartService = await session.client.then(async client => {
-      try {
-        const restartService = await client.restartService();
+      return await client.restartService().then((result) => {
+        //console.log('Result: ', result); //return object success
         //
         return {
           "erro": false,
           "status": 200,
           "message": "Serviço reiniciado com sucesso.",
-          restartService
+          "restartService": result
         };
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
+        //
         return {
           "erro": true,
           "status": 404,
           "message": "Erro ao reiniciar serviço."
         };
         //
-      }
+      });
     });
     return resultrestartService;
   } //restartService
@@ -2120,25 +2109,26 @@ module.exports = class Sessions {
     console.log("- getHostDevice");
     var session = Sessions.getSession(SessionName);
     var resultgetHostDevice = await session.client.then(async client => {
-      try {
-        const getHostDevice = await client.getHostDevice();
+      return await client.getHostDevice().then((result) => {
+        //console.log('Result: ', result); //return object success
         //
         return {
           "erro": false,
           "status": 200,
           "message": "Dados do dispositivo obtido com sucesso",
-          getHostDevice
+          "HostDevice": result
         };
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
+        //
         return {
           "erro": true,
           "status": 404,
           "message": "Erro ao obter dados do dispositivo"
         };
         //
-      }
+      });
     });
     return resultgetHostDevice;
   } //getHostDevice
@@ -2150,26 +2140,27 @@ module.exports = class Sessions {
     console.log("- getConnectionState");
     var session = Sessions.getSession(SessionName);
     var resultisConnected = await session.client.then(async client => {
-      try {
-        const getConnectionState = await client.getConnectionState();
+      return await client.getConnectionState().then((result) => {
+        //console.log('Result: ', result); //return object success
         //
         return {
           "erro": false,
           "status": 200,
           "message": "Estado do dispositivo obtido com sucesso",
-          getConnectionState
+          "ConnectionState": result
 
         };
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
+        //
         return {
           "erro": true,
           "status": 404,
           "message": "Erro ao obter o estado da conexão"
         };
         //
-      }
+      });
     });
     return resultisConnected;
   } //getConnectionState
@@ -2181,26 +2172,27 @@ module.exports = class Sessions {
     console.log("- getBatteryLevel");
     var session = Sessions.getSession(SessionName);
     var resultgetBatteryLevel = await session.client.then(async client => {
-      try {
-        const getBatteryLevel = await client.getBatteryLevel();
+      return await client.getBatteryLevel().then((result) => {
+        //console.log('Result: ', result); //return object success
         //
         return {
           "erro": false,
           "status": 200,
           "message": "Nivel da bateria obtido com sucesso",
-          getBatteryLevel
+          "BatteryLevel": result
 
         };
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
+        //
         return {
           "erro": true,
           "status": 404,
           "message": "Erro ao obter o nivel da bateria"
         };
         //
-      }
+      });
     });
     return resultgetBatteryLevel;
   } //getBatteryLevel
@@ -2212,25 +2204,26 @@ module.exports = class Sessions {
     console.log("- isConnected");
     var session = Sessions.getSession(SessionName);
     var resultisConnected = await session.client.then(async client => {
-      try {
-        const isConnected = await client.isConnected();
+      return await client.isConnected().then((result) => {
+        //console.log('Result: ', result); //return object success
         //
         return {
           "erro": false,
           "status": 200,
           "message": "Estatus obtido com sucesso",
-          isConnected
+          "Connected": result
         };
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
+        //
         return {
           "erro": true,
           "status": 404,
           "message": "Erro ao obter estatus"
         };
         //
-      }
+      });
     });
     return resultisConnected;
   } //isConnected
@@ -2242,25 +2235,26 @@ module.exports = class Sessions {
     console.log("- getWAVersion");
     var session = Sessions.getSession(SessionName);
     var resultgetWAVersion = await session.client.then(async client => {
-      try {
-        const getWAVersion = await client.getWAVersion();
+      return await client.getWAVersion().then((result) => {
+        //console.log('Result: ', result); //return object success
         //
         return {
           "erro": false,
           "status": 200,
           "message": "Versão do WhatsappWeb obtido com sucesso",
-          getWAVersion
+          "WAVersion": result
         };
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
+        //
         return {
           "erro": true,
           "status": 404,
           "message": "Erro ao obter versão do WhatsappWeb"
         };
         //
-      }
+      });
     });
     return resultgetWAVersion;
   } //getWAVersion
