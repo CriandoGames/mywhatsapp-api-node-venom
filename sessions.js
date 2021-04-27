@@ -1641,8 +1641,7 @@ module.exports = class Sessions {
     console.log("- createGroup");
     var session = Sessions.getSession(SessionName);
     var resultgetGroupInviteLink = await session.client.then(async client => {
-      try {
-        var result = await client.createGroup(title, contactlistValid);
+      return await client.createGroup(title, contactlistValid).then((result) => {
         //console.log('Result: ', result); //return object success
         //
         if (result.status === 200) {
@@ -1667,7 +1666,7 @@ module.exports = class Sessions {
           //
         }
         //
-      } catch (erro) {
+      }).catch((erro) => {
         //console.error('Error when sending: ', erro); //return object error
         //
         return {
@@ -1679,7 +1678,7 @@ module.exports = class Sessions {
           "message": "Erro ao criar grupo"
         };
         //
-      };
+      });
     });
     return resultgetGroupInviteLink;
   } //createGroup
@@ -1795,12 +1794,11 @@ module.exports = class Sessions {
     //
     var session = Sessions.getSession(SessionName);
     var resultpromoteParticipant = await session.client.then(async client => {
-      try {
-        //await client.promoteParticipant('00000000-000000@g.us', '111111111111@c.us');
-        var promoteParticipant = await client.promoteParticipant(group, number);
+      //await client.promoteParticipant('00000000-000000@g.us', '111111111111@c.us');
+      return await client.promoteParticipant(group, number).then((result) => {
         //console.log('Result: ', promoteParticipant); //return object success
         //
-        if (promoteParticipant === true) {
+        if (result === true) {
           return {
             "erro": false,
             "status": 200,
@@ -1818,7 +1816,7 @@ module.exports = class Sessions {
           //
         }
         //
-      } catch (erro) {
+      }).catch((erro) => {
         console.error('Error when sending: ', erro); //return object error
         //
         return {
@@ -1828,7 +1826,7 @@ module.exports = class Sessions {
           "message": "Erro ao promover participante a administrador"
         };
         //
-      };
+      });
     });
     return resultpromoteParticipant;
   } //promoteParticipant
