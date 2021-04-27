@@ -1257,7 +1257,7 @@ module.exports = class Sessions {
     //
     var session = Sessions.getSession(SessionName);
     var resultgetAllContacts = await session.client.then(async client => {
-      return await client.getAllContacts().then((result) => {
+      return await client.getAllContacts().then(async (result) => {
         //console.log('Result: ', result); //return object success
         //
         var getChatGroupNewMsg = [];
@@ -1522,7 +1522,7 @@ module.exports = class Sessions {
     console.log("- getGroupMembers");
     var session = Sessions.getSession(SessionName);
     var resultgetGroupMembers = await session.client.then(async client => {
-      return await client.getGroupMembers(groupId).then((result) => {
+      return await client.getGroupMembers(groupId).then(async (result) => {
         //console.log('Result: ', result); //return object success
         //
         var getGroupMembers = [];
