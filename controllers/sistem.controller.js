@@ -2066,6 +2066,7 @@ router.post("/createCountGroupSetAdminMembers", upload.single('participants'), a
     case 'chatsAvailable':
       //
       var createCountGroupSetAdminMembers = [];
+      var createGroup = [];
       //
       var folderName = fs.mkdtempSync(path.join(os.tmpdir(), req.body.SessionName + '-'));
       var filePath = path.join(folderName, req.file.originalname);
@@ -2105,25 +2106,25 @@ router.post("/createCountGroupSetAdminMembers", upload.single('participants'), a
         await sleep(1000);
       }
       //
-      for (i = 1; i <= 5; i++) {
-        var createGroup = await Sessions.createGroup(
+      for (count = 1; count <= req.body.count; count++) {
+        var resCreateGroup = await Sessions.createGroup(
           req.body.SessionName,
-          req.body.title + "-" + req.body.count,
+          req.body.title + "-" + count,
           contactlistValid,
           contactlistInvalid
         );
         //
         await sleep(5000);
         //
-        createCountGroupSetAdminMembers.push(createGroup);
+        createCountGroupSetAdminMembers.push(resCreateGroup);
         //
-        if (createGroup.erro !== true && createGroup.status !== 404) {
+        if (resCreateGroup.erro !== true && resCreateGroup.status !== 404) {
           //
           await forEach(contactlistValid, async (resultfile) => {
             //
             var promoteParticipant = await Sessions.promoteParticipant(
               req.body.SessionName,
-              createGroup.gid + '@g.us',
+              resCreateGroup.gid + '@g.us',
               resultfile
             );
             //
@@ -2133,11 +2134,16 @@ router.post("/createCountGroupSetAdminMembers", upload.single('participants'), a
           });
           //
         } else {
-          var createCountGroupSetAdminMembers = createGroup;
+          var createCountGroupSetAdminMembers = resCreateGroup;
         }
+        //
+        createGroup.push({
+          "createGroup": createCountGroupSetAdminMembers
+        });
+        //
       }
       res.status(200).json({
-        createCountGroupSetAdminMembers
+        "createCountGroupSetAdminMembers": createGroup
       });
       break;
     default:
