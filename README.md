@@ -23,9 +23,9 @@ Este projeto usa como base o [Venom](https://github.com/orkestral/venom "Venom")
 |Close|✔️|setProfilePic|✔️|getHostDevice|✔️|
 |Logout|✔️|||getConnectionState|✔️|
 |getHardware|✔️|||getBatteryLevel|✔️|
-|QRCode|✔️|||getBatteryLevel|✔️|
-|getSessions|✔️|||isConnected|✔️|
-|getBase64Encoding|✔️|||getWAVersion|✔️|
+|QRCode|✔️|||isConnected|✔️|
+|getSessions|✔️|||getWAVersion|✔️|
+|getBase64Encoding|✔️|||||
 |getBase64Decoding|✔️|||||
 
 |Router Basic|   |Router Retrieving|   |Router Group|   |
