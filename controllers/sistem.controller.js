@@ -195,11 +195,10 @@ router.post("/QRCode", upload.none(''), async (req, res, next) => {
           //
         } else {
           var getQRCode = {
-            result: "success",
-            state: session.state,
-            status: session.status,
-            qrcode: session.qrcode,
-            message: "Sistema iniciando"
+            result: 'error',
+            state: 'NOTFOUND',
+            status: 'notLogged',
+            message: 'Sistema Off-line'
           };
         }
       } else {
