@@ -424,7 +424,7 @@ module.exports = class Sessions {
         ],
         */
         puppeteerOptions: {}, // Will be passed to puppeteer.launch
-        //executablePath: '/usr/bin/chromium-browser',
+        executablePath: '/usr/bin/chromium-browser',
         disableSpins: true, // Will disable Spinnies animation, useful for containers (docker) for a better log
         disableWelcome: false, // Will disable the welcoming message which appears in the beginning
         updatesLog: true, // Logs info updates automatically in terminal
