@@ -194,7 +194,7 @@ router.post("/QRCode", upload.none(''), async (req, res, next) => {
             'Content-Length': imageBuffer.length
           });
           //
-          res.status(200).end(imageBuffer);
+          res.end(imageBuffer);
           //
         } else {
           var getQRCode = {
