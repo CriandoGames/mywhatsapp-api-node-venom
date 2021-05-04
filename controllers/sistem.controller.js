@@ -142,6 +142,13 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
       status: session.status,
       message: "Sistema não desconectado"
     });
+  } else if (["OPENING"].includes(session.state)) {
+    res.status(200).json({
+      result: 'warning',
+      state: 'OPENING',
+      status: 'notLogged',
+      message: 'Sistema Off-line'
+    });
   } else {
     res.status(200).json({
       result: "error",
@@ -396,36 +403,6 @@ router.post("/Logout", upload.none(''), async (req, res, next) => {
     case 'qrReadSuccess':
     case 'isLogged':
     case 'chatsAvailable':
-      //
-      /*
-      if (typeof(Sessions.options) !== "undefined") {
-        //
-        if (Sessions.options.jsonbinio_secret_key !== undefined) { //se informou secret key pra salvar na nuvem
-          console.log("- Limpando token JSONBin");
-          //salva dados do token da sessão na nuvem
-          var data = JSON.stringify({
-            "nada": "nada"
-          });
-          var config = {
-            method: 'put',
-            url: 'https://api.jsonbin.io/b/' + Sessions.options.jsonbinio_bin_id,
-            headers: {
-              'Content-Type': 'application/json',
-              'secret-key': Sessions.options.jsonbinio_secret_key,
-              'versioning': 'false'
-            },
-            data: data
-          };
-          await axios(config)
-            .then(function(response) {
-              console.log("- Response JSONBin:", JSON.parse(JSON.stringify(response.data)));
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
-        }
-      }
-      */
       //
       var LogoutSession = await Sessions.LogoutSession(req.body.SessionName);
       res.status(200).json({

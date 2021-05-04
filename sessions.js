@@ -122,6 +122,13 @@ module.exports = class Sessions {
           status: session.status,
           message: "Sistema não desconectado"
         };
+      } else if (session.state == "OPENING") {
+        return {
+          result: "info",
+          state: session.state,
+          status: session.status,
+          message: "Sistema não desconectado"
+        };
       } else {
         return {
           result: 'error',
@@ -373,8 +380,6 @@ module.exports = class Sessions {
         debug: false, // Opens a debug session
         logQR: false, // Logs QR automatically in terminal
         browserWS: '', // If u want to use browserWSEndpoint
-        browserArgs: '',
-        /*
         browserArgs: [
           '--log-level=3',
           '--no-default-browser-check',
@@ -422,9 +427,8 @@ module.exports = class Sessions {
           '--no-first-run',
           '--safebrowsing-disable-auto-update'
         ],
-        */
         puppeteerOptions: {}, // Will be passed to puppeteer.launch
-        executablePath: '/usr/bin/chromium-browser',
+        //executablePath: '/usr/bin/chromium-browser',
         disableSpins: true, // Will disable Spinnies animation, useful for containers (docker) for a better log
         disableWelcome: false, // Will disable the welcoming message which appears in the beginning
         updatesLog: true, // Logs info updates automatically in terminal
@@ -464,34 +468,8 @@ module.exports = class Sessions {
         session.state = state;
         console.log('- Connection status: ', state);
         clearTimeout(time);
-        if (state == "CONNECTED") {
-          /*
-          if (Sessions.options.jsonbinio_secret_key !== undefined && session.browserSessionToken == undefined) { //se informou secret key pra salvar na nuvem
-            setTimeout(async () => {
-              console.log("gravando token na nuvem...");
-              //salva dados do token da sessão na nuvem
-              const browserSessionToken = await client.getSessionTokenBrowser();
-              var data = JSON.stringify(browserSessionToken);
-              var config = {
-                method: 'put',
-                url: 'https://api.jsonbin.io/b/' + Sessions.options.jsonbinio_bin_id,
-                headers: {
-                  'Content-Type': 'application/json',
-                  'secret-key': Sessions.options.jsonbinio_secret_key,
-                  'versioning': 'false'
-                },
-                data: data
-              };
-              await axios(config)
-                .then(function(response) {
-                  console.log(JSON.stringify(response.data));
-                })
-                .catch(function(error) {
-                  console.log(error);
-                });
-            }, 2000);
-          } //if jsonbinio_secret_key
-          */
+        if (state == "OPENING") {
+          session.status = 'notLogged';
         } //if CONNECTED
         //
         //  DISCONNECTED when the mobile device is disconnected
