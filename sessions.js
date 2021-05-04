@@ -170,6 +170,16 @@ module.exports = class Sessions {
         client.useHere();
       });
       session.client = Sessions.initSession(SessionName);
+    } else if (["DISCONNECTED"].includes(session.state)) {
+      //restart session
+      console.log("- State: DISCONNECTED");
+      session.state = "STARTING";
+      session.status = "notLogged";
+      session.attempts = 0;
+      //session.socketio = null;
+      session.prossesid = null;
+      session.client = Sessions.initSession(SessionName);
+      Sessions.setup(SessionName);
     } else {
       console.log('- Nome da sessão:', session.name);
       console.log('- State do sistema:', session.state);
