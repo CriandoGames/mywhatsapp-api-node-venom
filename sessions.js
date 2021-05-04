@@ -363,6 +363,8 @@ module.exports = class Sessions {
         debug: false, // Opens a debug session
         logQR: false, // Logs QR automatically in terminal
         browserWS: '', // If u want to use browserWSEndpoint
+        browserArgs: '',
+        /*
         browserArgs: [
           '--log-level=3',
           '--no-default-browser-check',
@@ -410,6 +412,7 @@ module.exports = class Sessions {
           '--no-first-run',
           '--safebrowsing-disable-auto-update'
         ],
+        */
         puppeteerOptions: {}, // Will be passed to puppeteer.launch
         //executablePath: '/usr/bin/chromium-browser',
         disableSpins: true, // Will disable Spinnies animation, useful for containers (docker) for a better log
