@@ -102,6 +102,7 @@ const convertBytes = function(bytes) {
 //
 router.post("/Start", upload.none(''), async (req, res, next) => {
   //
+  /*
   if (serverConfig.jsonbinio_secret_key) {
     var session = await Sessions.Start(req.body.sessionName, {
       jsonbinio_secret_key: serverConfig.jsonbinio_secret_key,
@@ -110,6 +111,8 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
   } else {
     var session = await Sessions.Start(req.body.SessionName);
   }
+  */
+  var session = await Sessions.Start(req.body.SessionName);
   //console.log(session);
   if (["CONNECTED"].includes(session.state)) {
     res.status(200).json({
@@ -389,6 +392,7 @@ router.post("/Logout", upload.none(''), async (req, res, next) => {
     case 'isLogged':
     case 'chatsAvailable':
       //
+      /*
       if (typeof(Sessions.options) !== "undefined") {
         //
         if (Sessions.options.jsonbinio_secret_key !== undefined) { //se informou secret key pra salvar na nuvem
@@ -416,6 +420,7 @@ router.post("/Logout", upload.none(''), async (req, res, next) => {
             });
         }
       }
+      */
       //
       var LogoutSession = await Sessions.LogoutSession(req.body.SessionName);
       res.status(200).json({

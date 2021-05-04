@@ -232,6 +232,7 @@ module.exports = class Sessions {
     var session = Sessions.getSession(SessionName);
     session.browserSessionToken = null;
     //
+    /*
     if (Sessions.options.jsonbinio_secret_key !== undefined) {
       console.log("- Checando JSONBin");
       //se informou secret key pra salvar na nuvem
@@ -251,6 +252,7 @@ module.exports = class Sessions {
         console.log("- Sem token na nuvem.");
       }
     } //if jsonbinio_secret_key
+    */
     /*
       ╔═╗┌─┐┌┬┐┬┌─┐┌┐┌┌─┐┬    ╔═╗┬─┐┌─┐┌─┐┌┬┐┌─┐  ╔═╗┌─┐┬─┐┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐┌─┐
       ║ ║├─┘ │ ││ ││││├─┤│    ║  ├┬┘├┤ ├─┤ │ ├┤   ╠═╝├─┤├┬┘├─┤│││├┤  │ ├┤ ├┬┘└─┐
@@ -451,6 +453,7 @@ module.exports = class Sessions {
         console.log('- Connection status: ', state);
         clearTimeout(time);
         if (state == "CONNECTED") {
+          /*
           if (Sessions.options.jsonbinio_secret_key !== undefined && session.browserSessionToken == undefined) { //se informou secret key pra salvar na nuvem
             setTimeout(async () => {
               console.log("gravando token na nuvem...");
@@ -476,6 +479,7 @@ module.exports = class Sessions {
                 });
             }, 2000);
           } //if jsonbinio_secret_key
+          */
         } //if CONNECTED
         //
         //  DISCONNECTED when the mobile device is disconnected
