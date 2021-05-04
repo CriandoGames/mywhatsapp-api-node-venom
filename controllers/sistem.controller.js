@@ -194,7 +194,7 @@ router.post("/QRCode", upload.none(''), async (req, res, next) => {
             'Content-Length': imageBuffer.length
           });
           //
-          res.end(imageBuffer);
+          res.status(200).end(imageBuffer);
           //
         } else {
           var getQRCode = {
@@ -204,6 +204,11 @@ router.post("/QRCode", upload.none(''), async (req, res, next) => {
             message: 'Sistema Off-line'
           };
         }
+        //
+        res.status(200).json({
+          getQRCode
+        });
+        //
       } else {
         var getQRCode = {
           result: "success",
@@ -212,12 +217,12 @@ router.post("/QRCode", upload.none(''), async (req, res, next) => {
           qrcode: session.qrcode,
           message: "Aguardando leitura do QR-Code"
         };
+        //
+        res.status(200).json({
+          getQRCode
+        });
+        //
       }
-      //
-      res.status(200).json({
-        getQRCode
-      });
-      //
       break;
     case 'autocloseCalled':
       var getQRCode = {
