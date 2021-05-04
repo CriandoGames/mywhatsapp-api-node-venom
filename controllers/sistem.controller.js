@@ -102,16 +102,6 @@ const convertBytes = function(bytes) {
 //
 router.post("/Start", upload.none(''), async (req, res, next) => {
   //
-  /*
-  if (serverConfig.jsonbinio_secret_key) {
-    var session = await Sessions.Start(req.body.sessionName, {
-      jsonbinio_secret_key: serverConfig.jsonbinio_secret_key,
-      jsonbinio_bin_id: serverConfig.jsonbinio_bin_id
-    });
-  } else {
-    var session = await Sessions.Start(req.body.SessionName);
-  }
-  */
   var session = await Sessions.Start(req.body.SessionName);
   //console.log(session);
   if (["CONNECTED"].includes(session.state)) {
