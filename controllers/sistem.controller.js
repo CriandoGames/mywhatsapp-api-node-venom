@@ -203,12 +203,12 @@ router.post("/QRCode", upload.none(''), async (req, res, next) => {
             status: 'notLogged',
             message: 'Sistema Off-line'
           };
+          //
+          res.status(200).json({
+            getQRCode
+          });
+          //
         }
-        //
-        res.status(200).json({
-          getQRCode
-        });
-        //
       } else {
         var getQRCode = {
           result: "success",
