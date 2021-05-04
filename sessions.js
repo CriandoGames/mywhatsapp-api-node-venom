@@ -418,7 +418,6 @@ module.exports = class Sessions {
         autoClose: false, // Automatically closes the venom-bot only when scanning the QR code (default 60 seconds, if you want to turn it off, assign 0 or false)
         createPathFileToken: true, //creates a folder when inserting an object in the client's browser, to work it is necessary to pass the parameters in the function create browserSessionToken
       },
-      session.browserSessionToken,
       // BrowserInstance
       (browser, waPage) => {
         console.log("Browser PID:", browser.process().pid);
