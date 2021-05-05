@@ -426,6 +426,7 @@ module.exports = class Sessions {
           '--mute-audio',
           '--no-first-run',
           '--safebrowsing-disable-auto-update',
+          '--incognito',
           '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36',
         ],
         puppeteerOptions: {}, // Will be passed to puppeteer.launch
@@ -470,11 +471,12 @@ module.exports = class Sessions {
         console.log('- Connection status: ', state);
         clearTimeout(time);
         if (state == "OPENING") {
+          session.state = state;
           session.status = 'notLogged';
-        } //if CONNECTED
-        //
-        //  DISCONNECTED when the mobile device is disconnected
-        if (state === 'DISCONNECTED' || state === 'SYNCING') {
+        } else if (state == "UNPAIRED_IDLE") {
+          session.state = state;
+          session.status = 'notLogged';
+        } else if (state === 'DISCONNECTED' || state === 'SYNCING') {
           session.state = state;
           time = setTimeout(() => {
             client.close();
