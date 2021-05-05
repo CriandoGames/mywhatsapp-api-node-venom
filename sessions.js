@@ -410,6 +410,14 @@ module.exports = class Sessions {
           '--disable-accelerated-mjpeg-decode',
           '--disable-app-list-dismiss-on-blur',
           '--disable-accelerated-video-decode',
+          '--disable-infobars',
+          '--window-position=0,0',
+          '--ignore-certifcate-errors',
+          '--ignore-certifcate-errors-spki-list',
+          '--disable-dev-shm-usage',
+          '--disable-gl-drawing-for-tests',
+          '--incognito',
+          '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36',
           //Outros
           '--disable-web-security',
           '--disable-web-security',
@@ -426,8 +434,6 @@ module.exports = class Sessions {
           '--mute-audio',
           '--no-first-run',
           '--safebrowsing-disable-auto-update',
-          '--incognito',
-          '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36',
         ],
         puppeteerOptions: {}, // Will be passed to puppeteer.launch
         //executablePath: '/usr/bin/chromium-browser',
