@@ -86,6 +86,7 @@ module.exports = class Sessions {
   static async ApiStatus(SessionName) {
     console.log("- Status");
     var session = Sessions.getSession(SessionName);
+
     if (session) { //só adiciona se não existir
       if (session.state == "STARTING") {
         return {
@@ -101,41 +102,163 @@ module.exports = class Sessions {
           status: session.status,
           message: "Sistema aguardando leitura do QR-Code"
         };
-      } else if (session.state == "CONNECTED") {
-        return {
-          result: "success",
-          state: session.state,
-          status: session.status,
-          message: "Sistema iniciado"
-        };
-      } else if (session.state == "CLOSED") {
-        return {
-          result: "info",
-          state: session.state,
-          status: session.status,
-          message: "Sistema encerrado"
-        };
-      } else if (session.state == "DISCONNECTED") {
-        return {
-          result: "info",
-          state: session.state,
-          status: session.status,
-          message: "Sistema não desconectado"
-        };
-      } else if (session.state == "OPENING") {
-        return {
-          result: "info",
-          state: session.state,
-          status: session.status,
-          message: "Sistema não desconectado"
-        };
       } else {
-        return {
-          result: 'error',
-          state: 'NOTFOUND',
-          status: 'notLogged',
-          message: 'Sistema Off-line'
-        };
+        switch (session.status) {
+          case 'isLogged':
+            return {
+              result: "success",
+                state: session.state,
+                status: session.status,
+                message: "Sistema iniciado e disponivel para uso"
+            };
+            break;
+          case 'notLogged':
+            return {
+              result: "error",
+                state: session.state,
+                status: session.status,
+                message: "Sistema indisponivel para uso"
+            };
+            break;
+          case 'browserClose':
+            return {
+              result: "info",
+                state: session.state,
+                status: session.status,
+                message: "Navegador interno fechado"
+            };
+            break;
+          case 'qrReadSuccess':
+            return {
+              result: "success",
+                state: session.state,
+                status: session.status,
+                message: "Verificação do QR-Code feita com sucesso"
+            };
+            break;
+          case 'qrReadFail':
+            return {
+              result: "warning",
+                state: session.state,
+                status: session.status,
+                message: "Falha na verificação do QR-Code"
+            };
+            break;
+          case 'autocloseCalled':
+            return {
+              result: "info",
+                state: session.state,
+                status: session.status,
+                message: "Navegador interno fechado"
+            };
+            break;
+          case 'desconnectedMobile':
+            return {
+              result: "info",
+                state: session.state,
+                status: session.status,
+                message: "Dispositivo desconectado"
+            };
+            break;
+          case 'deleteToken':
+            return {
+              result: "info",
+                state: session.state,
+                status: session.status,
+                message: "Token de sessão removido"
+            };
+            break;
+          case 'chatsAvailable':
+            return {
+              result: "success",
+                state: session.state,
+                status: session.status,
+                message: "Sistema iniciado e disponivel para uso"
+            };
+            break;
+          case 'deviceNotConnected':
+            return {
+              result: "info",
+                state: session.state,
+                status: session.status,
+                message: "Dispositivo desconectado"
+            };
+            break;
+          case 'serverWssNotConnected':
+            return {
+              result: "info",
+                state: session.state,
+                status: session.status,
+                message: "O endereço wss não foi encontrado"
+            };
+            break;
+          case 'noOpenBrowser':
+            return {
+              result: "error",
+                state: session.state,
+                status: session.status,
+                message: "Não foi encontrado o navegador ou falta algum comando no args"
+            };
+            break;
+          case 'serverClose':
+            return {
+              result: "info",
+                state: session.state,
+                status: session.status,
+                message: "O cliente se desconectou do wss"
+            };
+            break;
+          case 'OPENING':
+            return {
+              result: "warning",
+                state: session.state,
+                status: session.status,
+                message: "Sistema iniciando"
+            };
+            break;
+          case 'UNPAIRED':
+          case 'UNPAIRED_IDLE':
+            return {
+              result: "warning",
+                state: session.state,
+                status: session.status,
+                message: "Dispositivo desconectado"
+            };
+            break;
+          case 'DISCONNECTED':
+            return {
+              result: "info",
+                state: session.state,
+                status: session.status,
+                message: "Dispositivo desconectado"
+            };
+            break;
+          case 'SYNCING':
+            return {
+              result: "warning",
+                state: session.state,
+                status: session.status,
+                message: "Dispositivo sincronizando"
+            };
+            break;
+          case 'CLOSED':
+            return {
+              result: "info",
+                state: session.state,
+                status: session.status,
+                message: "O cliente fechou a sessão ativa"
+            };
+            break;
+          default:
+            //
+            res.status(400).json({
+              result: 'error',
+              state: 'NOTFOUND',
+              status: 'notLogged',
+              message: 'Sistema Off-line'
+            });
+            //
+        }
       }
     } else {
       return {
@@ -145,6 +268,7 @@ module.exports = class Sessions {
         message: 'Sistema Off-line'
       };
     }
+
   } //status
   //
   // ------------------------------------------------------------------------------------------------------- //

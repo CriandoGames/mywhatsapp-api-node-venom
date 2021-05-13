@@ -102,6 +102,31 @@ const convertBytes = function(bytes) {
 //
 router.post("/Start", upload.none(''), async (req, res, next) => {
   //
+  var sessionStatus = await Sessions.ApiStatus(req.body.SessionName);
+  switch (sessionStatus.status) {
+    case 'inChat':
+    case 'qrReadSuccess':
+    case 'isLogged':
+    case 'chatsAvailable':
+      //
+      var closeSession = await Sessions.closeSession(req.body.SessionName);
+      res.status(200).json(closeSession);
+      break;
+      //
+
+    case 'notLogged':
+    case 'qrReadFail':
+    case 'deviceNotConnected':
+    case 'desconnectedMobile':
+    case 'deleteToken':
+      //
+      break;
+    default:
+      res.status(400).json({
+        "closeSession": sessionStatus
+      });
+  }
+  //
   var session = await Sessions.Start(req.body.SessionName);
   //console.log(session);
   if (["CONNECTED"].includes(session.state)) {
