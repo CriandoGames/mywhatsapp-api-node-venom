@@ -108,7 +108,6 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
     case 'qrReadSuccess':
     case 'isLogged':
     case 'chatsAvailable':
-      console.log("OK");
       //
       res.status(200).json({
         sessionStatus
@@ -121,8 +120,10 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
     case 'CLOSED':
     case 'qrRead':
       //
-      if (sessionStatus.state != 'STARTING' || sessionStatus.state == 'qrRead') {
+      if (sessionStatus.state != 'STARTING' || sessionStatus.status == 'qrRead') {
         var session = await Sessions.Start(req.body.SessionName);
+        session.state = 'STARTING';
+        session.status = 'notLogged';
         var Start = {
           result: "info",
           state: 'STARTING',
