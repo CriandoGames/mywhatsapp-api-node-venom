@@ -119,6 +119,7 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
     case 'desconnectedMobile':
     case 'deleteToken':
     case 'CLOSED':
+    case 'qrRead':
       //
       if (sessionStatus.state != 'STARTING') {
         var session = await Sessions.Start(req.body.SessionName);
@@ -167,6 +168,7 @@ router.post("/QRCode", upload.none(''), async (req, res, next) => {
     case 'deviceNotConnected':
     case 'desconnectedMobile':
     case 'deleteToken':
+    case 'qrRead':
       //
       if (req.body.View === true) {
         var xSession = session.qrcode;

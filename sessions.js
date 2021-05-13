@@ -401,6 +401,8 @@ module.exports = class Sessions {
         console.log('- Nome da sessão:', session.name);
         //
         session.state = "QRCODE";
+        session.status = "qrRead";
+        session.message = 'Sistema iniciando e indisponivel para uso';
         //
         console.log('- Número de tentativas de ler o qr-code:', attempts);
         session.attempts = attempts;
