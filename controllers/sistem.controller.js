@@ -110,7 +110,7 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
     case 'chatsAvailable':
       //
       res.status(200).json({
-        sessionStatus
+        "Status": sessionStatus
       });
       break;
     case 'notLogged':
@@ -120,28 +120,37 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
     case 'CLOSED':
     case 'qrRead':
       //
-      if (sessionStatus.state != 'STARTING' || sessionStatus.status == 'qrRead') {
-        var session = await Sessions.Start(req.body.SessionName);
-        session.state = 'STARTING';
-        session.status = 'notLogged';
-        var Start = {
-          result: "info",
-          state: 'STARTING',
-          status: 'notLogged',
-          message: 'Sistema iniciando e indisponivel para uso'
-        };
-      } else {
-        var Start = sessionStatus;
-      }
+      var session = await Sessions.Start(req.body.SessionName);
+      session.state = 'STARTING';
+      session.status = 'notLogged';
+      var Start = {
+        result: "info",
+        state: 'STARTING',
+        status: 'notLogged',
+        message: 'Sistema iniciando e indisponivel para uso'
+      };
+      //
       res.status(200).json({
-        "sessionStatus": Start
+        "Status": Start
       });
       //
       break;
     default:
-      res.status(400).json({
-        sessionStatus
+      //
+      var session = await Sessions.Start(req.body.SessionName);
+      session.state = 'STARTING';
+      session.status = 'notLogged';
+      var Start = {
+        result: "info",
+        state: 'STARTING',
+        status: 'notLogged',
+        message: 'Sistema iniciando e indisponivel para uso'
+      };
+      //
+      res.status(200).json({
+        "Status": Start
       });
+      //
   }
   //
 });
