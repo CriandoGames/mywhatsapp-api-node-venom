@@ -481,6 +481,7 @@ module.exports = class Sessions {
             session.qrcode = null;
             session.CodeasciiQR = null;
             session.CodeurlCode = null;
+            session.message = "Sistema iniciado";
             break;
           case 'autocloseCalled':
           case 'browserClose':
@@ -492,6 +493,7 @@ module.exports = class Sessions {
             session.qrcode = null;
             session.CodeasciiQR = null;
             session.CodeurlCode = null;
+            session.message = "Sistema fechado";
             break;
           case 'qrReadFail':
           case 'notLogged':
@@ -501,11 +503,13 @@ module.exports = class Sessions {
             session.result = "info";
             session.state = "DISCONNECTED";
             session.status = statusSession;
+            session.message = "Dispositivo desconetado";
             break;
           default:
             session.result = "info";
             session.state = "DISCONNECTED";
             session.status = statusSession;
+            session.message = "Dispositivo desconetado";
         }
       },
       // options
