@@ -109,8 +109,7 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
     case 'isLogged':
     case 'chatsAvailable':
       //
-      var closeSession = await Sessions.closeSession(req.body.SessionName);
-      res.status(200).json(closeSession);
+
       break;
       //
 
@@ -123,7 +122,7 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
       break;
     default:
       res.status(400).json({
-        "closeSession": sessionStatus
+        "Start": sessionStatus
       });
   }
   //

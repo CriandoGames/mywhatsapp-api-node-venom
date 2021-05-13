@@ -216,6 +216,14 @@ module.exports = class Sessions {
                 message: "Sistema iniciando"
             };
             break;
+          case 'CONFLICT':
+            return {
+              result: "info",
+                state: session.state,
+                status: session.status,
+                message: "Dispositivo conectado em outra sessão, reconectando"
+            };
+            break;
           case 'UNPAIRED':
           case 'UNPAIRED_IDLE':
             return {
