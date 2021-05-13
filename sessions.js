@@ -336,10 +336,12 @@ module.exports = class Sessions {
       process: null,
       qrcode: false,
       client: false,
+      result: null,
       status: 'notLogged',
       state: 'STARTING',
       message: null,
-      attempts: 0
+      attempts: 0,
+      browserSessionToken: null
     }
     Sessions.sessions.push(newSession);
     console.log("- Nova sessão: " + newSession.state);
@@ -473,6 +475,7 @@ module.exports = class Sessions {
           case 'qrReadSuccess':
           case 'inChat':
           case 'chatsAvailable':
+            session.result = "success";
             session.state = "CONNECTED";
             session.status = statusSession
             session.qrcode = null;
@@ -483,6 +486,7 @@ module.exports = class Sessions {
           case 'browserClose':
           case 'serverClose':
           case 'autocloseCalled':
+            session.result = "info";
             session.state = "CLOSED";
             session.status = statusSession;
             session.qrcode = null;
@@ -494,10 +498,12 @@ module.exports = class Sessions {
           case 'deviceNotConnected':
           case 'desconnectedMobile':
           case 'deleteToken':
+            session.result = "info";
             session.state = "DISCONNECTED";
             session.status = statusSession;
             break;
           default:
+            session.result = "info";
             session.state = "DISCONNECTED";
             session.status = statusSession;
         }
@@ -587,6 +593,7 @@ module.exports = class Sessions {
     var browserSessionToken = await client.getSessionTokenBrowser();
     console.log("- Token venom:\n", JSON.parse(JSON.stringify(browserSessionToken)));
     session.state = "CONNECTED";
+    session.browserSessionToken = browserSessionToken;
     return client;
   } //initSession
   //

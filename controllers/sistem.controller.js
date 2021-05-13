@@ -121,11 +121,14 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
     case 'CLOSED':
       //
       var session = await Sessions.Start(req.body.SessionName);
-      res.status(200).json({
-        result: "success",
+      var Start = {
+        result: session.result,
         state: session.state,
         status: session.status,
         message: session.message
+      };
+      res.status(200).json({
+        "sessionStatus": Start
       });
       //
       break;
@@ -134,53 +137,6 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
         sessionStatus
       });
   }
-  //
-  /*
-    //console.log(session);
-    if (["CONNECTED"].includes(session.state)) {
-      res.status(200).json({
-        result: "success",
-        state: session.state,
-        status: session.status,
-        message: "Sistema iniciado"
-      });
-    } else if (["STARTING"].includes(session.state)) {
-      res.status(200).json({
-        result: 'info',
-        state: session.state,
-        status: session.status,
-        message: "Sistema iniciando"
-      });
-    } else if (["QRCODE"].includes(session.state)) {
-      res.status(200).json({
-        result: 'warning',
-        state: session.state,
-        status: session.status,
-        message: "Sistema aguardando leitura do QR-Code"
-      });
-    } else if (["DISCONNECTED"].includes(session.state)) {
-      res.status(200).json({
-        result: 'warning',
-        state: session.state,
-        status: session.status,
-        message: "Sistema não desconectado"
-      });
-    } else if (["OPENING"].includes(session.state)) {
-      res.status(200).json({
-        result: 'warning',
-        state: 'OPENING',
-        status: 'notLogged',
-        message: 'Sistema Off-line'
-      });
-    } else {
-      res.status(200).json({
-        result: "error",
-        state: session.state,
-        status: session.status,
-        message: "Sistema Off-line"
-      });
-    }
-  	*/
   //
 });
 //
@@ -197,18 +153,11 @@ router.post("/QRCode", upload.none(''), async (req, res, next) => {
     case 'isLogged':
     case 'chatsAvailable':
       //
-      var getQRCode = {
-        result: "success",
-        state: session.state,
-        status: session.status,
-        message: "Sistema iniciado"
-      };
-      //
       res.status(200).json({
-        getQRCode
+        sessionStatus
       });
-      //
       break;
+      //
     case 'notLogged':
     case 'qrReadFail':
     case 'deviceNotConnected':
@@ -254,65 +203,12 @@ router.post("/QRCode", upload.none(''), async (req, res, next) => {
         });
         //
       }
-      break;
-    case 'autocloseCalled':
-      var getQRCode = {
-        result: 'error',
-        state: session.state,
-        status: session.status,
-        message: 'Navegador interno foi fechado'
-      };
-      //
-      res.status(400).json({
-        getQRCode
-      });
-      //
-      break;
-    case 'browserClose':
-      var getQRCode = {
-        result: 'error',
-        state: session.state,
-        status: session.status,
-        message: 'Navegador interno foi fechado'
-      };
-      //
-      res.status(400).json({
-        getQRCode
-      });
-      //
-      break;
-    case 'serverWssNotConnected':
-      var getQRCode = {
-        result: 'error',
-        state: session.state,
-        status: session.status,
-        message: 'O endereço wss não foi encontrado'
-      };
-      //
-      res.status(400).json({
-        getQRCode
-      });
-      //
-      break;
-    case 'noOpenBrowser':
-      var getQRCode = {
-        result: 'error',
-        state: session.state,
-        status: session.status,
-        message: 'Não foi encontrado no navegador ou falta algum comando no args'
-      };
-      //
-      res.status(400).json({
-        getQRCode
-      });
       //
       break;
     default:
-      //
       res.status(400).json({
-        "getQRCode": sessionStatus
+        sessionStatus
       });
-      //
   }
   //
 });
