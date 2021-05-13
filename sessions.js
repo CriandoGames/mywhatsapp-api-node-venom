@@ -93,7 +93,7 @@ module.exports = class Sessions {
           result: "info",
           state: session.state,
           status: session.status,
-          message: "Sistema iniciando"
+          message: "'Sistema iniciando e indisponivel para uso'"
         };
       } else if (session.state == "QRCODE") {
         return {
@@ -213,7 +213,7 @@ module.exports = class Sessions {
               result: "warning",
                 state: session.state,
                 status: session.status,
-                message: "Sistema iniciando"
+                message: "'Sistema iniciando e indisponivel para uso'"
             };
             break;
           case 'CONFLICT':
