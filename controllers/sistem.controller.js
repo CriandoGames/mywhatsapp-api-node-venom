@@ -219,33 +219,6 @@ router.post("/QRCode", upload.none(''), async (req, res, next) => {
 //
 // ------------------------------------------------------------------------------------------------//
 //
-router.post("/getBase64Encoding", upload.none(''), async (req, res, next) => {
-  var getBase64Encoding = {
-    SessionName: req.body.SessionName,
-    phonefull: soNumeros(req.body.phonefull),
-    token: emBase64(soNumeros(req.body.phonefull))
-  };
-  //
-  res.status(200).json({
-    getBase64Encoding
-  });
-}); //getBase64Encoding
-//
-router.post("/getBase64Decoding", upload.none(''), async (req, res, next) => {
-  //
-  var getBase64Decoding = {
-    SessionName: req.body.SessionName,
-    token: req.body.token,
-    phonefull: deBase64(req.body.token)
-  };
-  //
-  res.status(200).json({
-    getBase64Decoding
-  });
-}); //getBase64Decoding
-//
-// ------------------------------------------------------------------------------------------------//
-//
 router.post("/getSessions", upload.none(''), async (req, res, next) => {
   var getSessions = await Sessions.getSessions();
   //
@@ -268,36 +241,6 @@ router.post("/Status", upload.none(''), async (req, res, next) => {
 //
 // ------------------------------------------------------------------------------------------------//
 //
-// Dados de memoria e uptime
-router.post("/getHardWare", upload.none(''), async (req, res, next) => {
-  console.log("- getHardWare");
-  //
-  var getHardWare = {
-    "noformat": {
-      uptime: os.uptime(),
-      freemem: os.freemem(),
-      memusage: (os.totalmem() - os.freemem()),
-      totalmem: os.totalmem(),
-      freeusagemem: `${Math.round((os.freemem()*100)/os.totalmem()).toFixed(0)}`,
-      usagemem: `${Math.round(((os.totalmem()-os.freemem())*100)/os.totalmem()).toFixed(0)}`
-    },
-    "format": {
-      uptime: (os.uptime() + "").toHHMMSS(),
-      freemem: convertBytes(os.freemem()),
-      memusage: convertBytes((os.totalmem() - os.freemem())),
-      totalmem: convertBytes(os.totalmem()),
-      freeusagemem: `${Math.round((os.freemem()*100)/os.totalmem()).toFixed(0)} %`,
-      usagemem: `${Math.round(((os.totalmem()-os.freemem())*100)/os.totalmem()).toFixed(0)} %`
-    }
-  };
-  //console.log(result);
-  res.status(200).json({
-    getHardWare
-  });
-}); //getHardWare
-//
-// ------------------------------------------------------------------------------------------------//
-//
 // Fecha a sessão
 router.post("/Close", upload.none(''), async (req, res, next) => {
   var sessionStatus = await Sessions.ApiStatus(req.body.SessionName);
@@ -306,6 +249,7 @@ router.post("/Close", upload.none(''), async (req, res, next) => {
     case 'qrReadSuccess':
     case 'isLogged':
     case 'chatsAvailable':
+    case 'qrRead':
       //
       var closeSession = await Sessions.closeSession(req.body.SessionName);
       res.status(200).json(closeSession);
