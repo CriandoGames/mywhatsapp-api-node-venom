@@ -125,8 +125,8 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
         var session = await Sessions.Start(req.body.SessionName);
         var Start = {
           result: "info",
-          state: session.state,
-          status: session.status,
+          state: 'STARTING',
+          status: 'qrRead',
           message: 'Sistema iniciando e indisponivel para uso'
         };
       } else {
