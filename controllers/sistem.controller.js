@@ -120,14 +120,13 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
     case 'deleteToken':
     case 'CLOSED':
     case 'qrRead':
-      console.log("Start");
       //
-      if (sessionStatus.state != 'STARTING') {
+      if (sessionStatus.state != 'STARTING' || sessionStatus.state == 'qrRead') {
         var session = await Sessions.Start(req.body.SessionName);
         var Start = {
           result: "info",
           state: 'STARTING',
-          status: 'qrRead',
+          status: 'notLogged',
           message: 'Sistema iniciando e indisponivel para uso'
         };
       } else {

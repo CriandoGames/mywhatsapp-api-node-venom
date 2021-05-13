@@ -144,6 +144,14 @@ module.exports = class Sessions {
                 message: "Falha na verificação do QR-Code"
             };
             break;
+          case 'qrRead':
+            return {
+              result: "warning",
+                state: session.state,
+                status: session.status,
+                message: "Sistema aguardando leitura do QR-Code"
+            };
+            break;
           case 'autocloseCalled':
             return {
               result: "info",
