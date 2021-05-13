@@ -225,6 +225,7 @@ module.exports = class Sessions {
             };
             break;
           case 'UNPAIRED':
+          case 'UNLAUNCHED':
           case 'UNPAIRED_IDLE':
             return {
               result: "warning",
@@ -293,15 +294,18 @@ module.exports = class Sessions {
     } else if (["CLOSED"].includes(session.state)) {
       //restart session
       console.log("- State: CLOSED");
+      session.result = "info";
       session.state = "STARTING";
       session.status = "notLogged";
       session.attempts = 0;
-      //session.socketio = null;
+      session.message = 'Sistema iniciando e indisponivel para uso';
       session.prossesid = null;
       session.client = Sessions.initSession(SessionName);
       Sessions.setup(SessionName);
     } else if (["CONFLICT", "UNPAIRED", "UNLAUNCHED", "UNPAIRED_IDLE"].includes(session.state)) {
+      session.result = "info";
       session.status = 'notLogged';
+      session.message = 'Sistema desconectado';
       console.log('- Status do sistema:', session.state);
       console.log('- Status da sessão:', session.status);
       console.log("- Client UseHere");
@@ -312,10 +316,11 @@ module.exports = class Sessions {
     } else if (["DISCONNECTED"].includes(session.state)) {
       //restart session
       console.log("- State: DISCONNECTED");
+      session.result = "info";
       session.state = "STARTING";
       session.status = "notLogged";
       session.attempts = 0;
-      //session.socketio = null;
+      session.message = 'Sistema desconectado';
       session.prossesid = null;
       session.client = Sessions.initSession(SessionName);
       Sessions.setup(SessionName);
@@ -339,7 +344,7 @@ module.exports = class Sessions {
       result: null,
       status: 'notLogged',
       state: 'STARTING',
-      message: null,
+      message: 'Sistema iniciando e indisponivel para uso',
       attempts: 0,
       browserSessionToken: null
     }
@@ -383,27 +388,6 @@ module.exports = class Sessions {
     var session = Sessions.getSession(SessionName);
     session.browserSessionToken = null;
     //
-    /*
-    if (Sessions.options.jsonbinio_secret_key !== undefined) {
-      console.log("- Checando JSONBin");
-      //se informou secret key pra salvar na nuvem
-      //busca token da session na nuvem
-      var config = {
-        method: 'get',
-        url: 'https://api.jsonbin.io/b/' + Sessions.options.jsonbinio_bin_id,
-        headers: {
-          'secret-key': Sessions.options.jsonbinio_secret_key
-        }
-      };
-      const response = await axios(config);
-      if (response.data.WAToken1 !== undefined) {
-        session.browserSessionToken = response.data;
-        //console.log("- Browser Session Token: " + JSON.stringify(session.browserSessionToken));
-      } else {
-        console.log("- Sem token na nuvem.");
-      }
-    } //if jsonbinio_secret_key
-    */
     /*
       ╔═╗┌─┐┌┬┐┬┌─┐┌┐┌┌─┐┬    ╔═╗┬─┐┌─┐┌─┐┌┬┐┌─┐  ╔═╗┌─┐┬─┐┌─┐┌┬┐┌─┐┌┬┐┌─┐┬─┐┌─┐
       ║ ║├─┘ │ ││ ││││├─┤│    ║  ├┬┘├┤ ├─┤ │ ├┤   ╠═╝├─┤├┬┘├─┤│││├┤  │ ├┤ ├┬┘└─┐
@@ -481,7 +465,7 @@ module.exports = class Sessions {
             session.qrcode = null;
             session.CodeasciiQR = null;
             session.CodeurlCode = null;
-            session.message = "Sistema iniciado";
+            session.message = "Sistema iniciado e disponivel para uso";
             break;
           case 'autocloseCalled':
           case 'browserClose':

@@ -120,13 +120,17 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
     case 'deleteToken':
     case 'CLOSED':
       //
-      var session = await Sessions.Start(req.body.SessionName);
-      var Start = {
-        result: session.result,
-        state: session.state,
-        status: session.status,
-        message: session.message
-      };
+      if (sessionStatus.state != 'STARTING') {
+        var session = await Sessions.Start(req.body.SessionName);
+        var Start = {
+          result: "info",
+          state: session.state,
+          status: session.status,
+          message: 'Sistema iniciando e indisponivel para uso'
+        };
+      } else {
+        var Start = sessionStatus;
+      }
       res.status(200).json({
         "sessionStatus": Start
       });
