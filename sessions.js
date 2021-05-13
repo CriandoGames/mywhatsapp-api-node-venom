@@ -737,7 +737,7 @@ module.exports = class Sessions {
       try {
         await client.close();
         session.state = "CLOSED";
-        session.status = session.state;
+        session.status = 'CLOSED';
         session.client = false;
         console.log("- Sessão fechada");
         //
