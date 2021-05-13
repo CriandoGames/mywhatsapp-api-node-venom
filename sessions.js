@@ -342,8 +342,8 @@ module.exports = class Sessions {
       qrcode: false,
       client: false,
       result: null,
-      status: 'notLogged',
       state: 'STARTING',
+      status: 'notLogged',
       message: 'Sistema iniciando e indisponivel para uso',
       attempts: 0,
       browserSessionToken: null

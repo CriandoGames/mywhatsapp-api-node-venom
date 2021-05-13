@@ -108,18 +108,19 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
     case 'qrReadSuccess':
     case 'isLogged':
     case 'chatsAvailable':
+      console.log("OK");
       //
       res.status(200).json({
         sessionStatus
       });
       break;
-      //
     case 'notLogged':
     case 'deviceNotConnected':
     case 'desconnectedMobile':
     case 'deleteToken':
     case 'CLOSED':
     case 'qrRead':
+      console.log("Start");
       //
       if (sessionStatus.state != 'STARTING') {
         var session = await Sessions.Start(req.body.SessionName);
