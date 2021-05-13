@@ -37,6 +37,7 @@
     "boxen": "^5.0.1",
     "chalk": "^4.1.1",
     "chrome-launcher": "^0.13.4",
+    "consign": "^0.1.6",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
