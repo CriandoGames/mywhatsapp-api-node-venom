@@ -114,6 +114,7 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
       });
       //
       break;
+      /*
     case 'notLogged':
     case 'deviceNotConnected':
     case 'desconnectedMobile':
@@ -136,6 +137,7 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
       });
       //
       break;
+			*/
     default:
       //
       var session = await Sessions.Start(req.body.SessionName);
