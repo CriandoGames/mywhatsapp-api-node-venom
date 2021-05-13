@@ -95,12 +95,12 @@ cd mywhatsapp-api-node-venom
 npm install
 
 # Execute a aplicação 
-node index.js
+node server.js
 
 # Manter os processos ativos a cada reinicialização do servidor
 sudo npm install pm2 -g
 
-pm2 start index.js
+pm2 start server.js
 
 pm2 save
 
