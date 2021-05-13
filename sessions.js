@@ -633,8 +633,8 @@ module.exports = class Sessions {
     await session.client.then(async client => {
       try {
         await client.logout();
-        session.state = "CLOSED";
-        session.status = "notLogged";
+        session.state = "DISCONNECTED";
+        session.status = session.state;
         session.client = false;
         console.log("- Sessão fechada");
         //

@@ -393,6 +393,7 @@ router.post("/Logout", upload.none(''), async (req, res, next) => {
     case 'qrReadSuccess':
     case 'isLogged':
     case 'chatsAvailable':
+    case 'CLOSED':
       //
       var LogoutSession = await Sessions.LogoutSession(req.body.SessionName);
       res.status(200).json({
