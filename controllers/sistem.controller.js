@@ -112,7 +112,6 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
       res.status(200).json({
         "Status": sessionStatus
       });
-      //
       break;
     case 'notLogged':
     case 'deviceNotConnected':
@@ -137,21 +136,9 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
       //
       break;
     default:
-      //
-      var session = await Sessions.Start(req.body.SessionName);
-      session.state = 'STARTING';
-      session.status = 'notLogged';
-      var Start = {
-        result: "info",
-        state: 'STARTING',
-        status: 'notLogged',
-        message: 'Sistema iniciando e indisponivel para uso'
-      };
-      //
-      res.status(200).json({
-        "Status": Start
+      res.status(400).json({
+        "Status": sessionStatus
       });
-      //
   }
   //
 });
