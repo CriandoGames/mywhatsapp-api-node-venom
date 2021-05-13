@@ -600,7 +600,7 @@ module.exports = class Sessions {
       try {
         await client.close();
         session.state = "CLOSED";
-        session.status = "notLogged";
+        session.status = session.state;
         session.client = false;
         console.log("- Sessão fechada");
         //
@@ -640,7 +640,7 @@ module.exports = class Sessions {
         //
         return {
           result: "success",
-          state: session.state,
+          state: "DISCONNECTED",
           status: session.status,
           message: "Sessão fechada"
         };
