@@ -112,6 +112,7 @@ router.post("/Start", upload.none(''), async (req, res, next) => {
       res.status(200).json({
         "Status": sessionStatus
       });
+      //
       break;
     case 'notLogged':
     case 'deviceNotConnected':
