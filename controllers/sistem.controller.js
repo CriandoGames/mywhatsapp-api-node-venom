@@ -102,58 +102,43 @@ const convertBytes = function(bytes) {
 //
 router.post("/Start", upload.none(''), async (req, res, next) => {
   //
-  var sessionStatus = await Sessions.ApiStatus(req.body.SessionName);
-  switch (sessionStatus.status) {
-    case 'inChat':
-    case 'qrReadSuccess':
-    case 'isLogged':
-    case 'chatsAvailable':
-      //
-      res.status(200).json({
-        "Status": sessionStatus
-      });
-      //
-      break;
-      /*
-    case 'notLogged':
-    case 'deviceNotConnected':
-    case 'desconnectedMobile':
-    case 'deleteToken':
-    case 'CLOSED':
-    case 'qrRead':
-      //
-      var session = await Sessions.Start(req.body.SessionName);
-      session.state = 'STARTING';
-      session.status = 'notLogged';
-      var Start = {
-        result: "info",
-        state: 'STARTING',
-        status: 'notLogged',
-        message: 'Sistema iniciando e indisponivel para uso'
-      };
-      //
-      res.status(200).json({
-        "Status": Start
-      });
-      //
-      break;
-			*/
-    default:
-      //
-      var session = await Sessions.Start(req.body.SessionName);
-      session.state = 'STARTING';
-      session.status = 'notLogged';
-      var Start = {
-        result: "info",
-        state: 'STARTING',
-        status: 'notLogged',
-        message: 'Sistema iniciando e indisponivel para uso'
-      };
-      //
-      res.status(200).json({
-        "Status": Start
-      });
-      //
+  var session = await Sessions.Start(req.body.SessionName);
+  //console.log(session);
+  if (["CONNECTED"].includes(session.state)) {
+    res.status(200).json({
+      result: "success",
+      state: session.state,
+      status: session.status,
+      message: "Sistema iniciado"
+    });
+  } else if (["STARTING"].includes(session.state)) {
+    res.status(200).json({
+      result: 'info',
+      state: session.state,
+      status: session.status,
+      message: "Sistema iniciando"
+    });
+  } else if (["QRCODE"].includes(session.state)) {
+    res.status(200).json({
+      result: 'warning',
+      state: session.state,
+      status: session.status,
+      message: "Sistema aguardando leitura do QR-Code"
+    });
+  } else if (["DISCONNECTED"].includes(session.state)) {
+    res.status(200).json({
+      result: 'warning',
+      state: session.state,
+      status: session.status,
+      message: "Sistema não desconectado"
+    });
+  } else {
+    res.status(200).json({
+      result: "error",
+      state: session.state,
+      status: session.status,
+      message: "Sistema Off-line"
+    });
   }
   //
 });
