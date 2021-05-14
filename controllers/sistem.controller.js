@@ -241,6 +241,36 @@ router.post("/Status", upload.none(''), async (req, res, next) => {
 //
 // ------------------------------------------------------------------------------------------------//
 //
+// Dados de memoria e uptime
+router.post("/getHardWare", upload.none(''), async (req, res, next) => {
+  console.log("- getHardWare");
+  //
+  var getHardWare = {
+    "noformat": {
+      uptime: os.uptime(),
+      freemem: os.freemem(),
+      memusage: (os.totalmem() - os.freemem()),
+      totalmem: os.totalmem(),
+      freeusagemem: `${Math.round((os.freemem()*100)/os.totalmem()).toFixed(0)}`,
+      usagemem: `${Math.round(((os.totalmem()-os.freemem())*100)/os.totalmem()).toFixed(0)}`
+    },
+    "format": {
+      uptime: (os.uptime() + "").toHHMMSS(),
+      freemem: convertBytes(os.freemem()),
+      memusage: convertBytes((os.totalmem() - os.freemem())),
+      totalmem: convertBytes(os.totalmem()),
+      freeusagemem: `${Math.round((os.freemem()*100)/os.totalmem()).toFixed(0)} %`,
+      usagemem: `${Math.round(((os.totalmem()-os.freemem())*100)/os.totalmem()).toFixed(0)} %`
+    }
+  };
+  //console.log(result);
+  res.status(200).json({
+    getHardWare
+  });
+}); //getHardWare
+//
+// ------------------------------------------------------------------------------------------------//
+//
 // Fecha a sessão
 router.post("/Close", upload.none(''), async (req, res, next) => {
   var sessionStatus = await Sessions.ApiStatus(req.body.SessionName);
