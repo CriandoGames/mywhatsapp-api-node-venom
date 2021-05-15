@@ -6,6 +6,8 @@ const {
 const axios = require('axios');
 const venom = require('venom-bot');
 const serverConfig = require("./config/server.config.json");
+const io = require("socket.io-client"),
+  ioClient = io.connect("http://" + serverConfig.host + ":" + serverConfig.port);
 const {
   cache
 } = require('sharp');
