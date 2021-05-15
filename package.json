@@ -6,7 +6,6 @@
   "private": true,
   "scripts": {
     "start": "node index.js",
-    "screen": "xvfb-run --server-args='-screen 0 1024x768x24' node index.js",
     "test": "echo \"Erro: nenhum teste especificado\" && exit 1"
   },
   "repository": {
