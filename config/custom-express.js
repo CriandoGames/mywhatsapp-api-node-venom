@@ -45,7 +45,6 @@ module.exports = () => {
   //socket
   io.on('connection', (socket) => {
     socket.on('disconnect', function() {
-      const EmpresaToken = socket.request._query['_empresatoken'];
       console.log('-------');
       console.log('Fechou conexão');
       console.log('socketid ' + socket.id);
